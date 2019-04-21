@@ -5,7 +5,6 @@ hms = {
 	seconds : 0
 }
 
-
 const hour_hand = document.getElementById("hour-hand");
 const minute_hand = document.getElementById("minute-hand");
 const second_hand = document.getElementById("second-hand");
