@@ -30,8 +30,8 @@ function setHands(){
 }
 
 function initialize(){
+	updateTime();setHands();
 	setInterval(()=>{updateTime();setHands()},1000);
-	setTimeout(()=>{document.getElementById("clock").setAttribute("style","display:block")}, 1000);
 };
 
 initialize();
