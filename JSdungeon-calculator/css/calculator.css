@@ -1,0 +1,166 @@
+:root{
+	--gray-scale-1: #E8E8E8;
+	--gray-scale-2: #000000;
+	--blue-scale-1: #00C4FF;
+	--blue-scale-2: #6C00FF;
+	--blue-scale-3: #062145;
+	--blue-scale-4: #041936;
+	
+	--font-style: "Roboto";
+	--font-weight-1: 300; /*light*/
+	--font-weight-2: 400; /*regular*/
+	--font-weight-3: 500; /*medium*/
+	--font-size-1: 16px;
+	--font-size-2: 24px;
+	--font-size-3: 56px;
+}
+
+*{
+	box-sizing: border-box;
+}
+
+body{
+	background-color: var(--gray-scale-1);
+	font-family: var(--font-style);
+
+	color:white;
+}
+
+#calc{
+	background-color: var(--blue-scale-4);
+	border-radius: 20px;
+	box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+	
+	width: 350px;
+	height: 525px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 80px;
+	margin-bottom: 40px;
+
+	display: grid;
+	grid-template-rows: 1fr 2fr 12fr;
+}
+
+#eq{
+	text-align: right;
+	align-self: end;
+	color: var(--blue-scale-1);
+	margin-right: 20px;
+	margin-left: 20px;
+	font-weight: var(--font-weight-2);
+	font-size:  var(--font-size-1);
+	line-height: 1em;
+	overflow: hidden;
+}
+#equation{
+	float: right;
+	white-space: nowrap;
+}
+
+#buf{
+	text-align: right;
+	align-self: center;
+	margin-right: 16px;
+	margin-left: 16px;
+	color: #FFF;
+	font-weight: var(--font-weight-2);
+	font-size:  var(--font-size-3);
+	line-height: 1em;
+	overflow: hidden;
+}
+#buffer{
+	float: right;
+	white-space: nowrap;
+}
+
+#keys{
+	background-color: var(--blue-scale-3);
+	border-radius: 0 0 20px 20px;
+
+	display: grid;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+
+	padding-top: 8px;
+	padding-bottom: 8px;
+
+	font-weight: var(--font-weight-1);
+	color: #FFF;
+	font-size: var(--font-size-2);
+	line-height: 1.16em;
+}
+
+#keys > div{
+	width: 83%;
+	height: 77%;
+	margin: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 16px;
+}
+
+#keys > div:hover{
+	cursor: pointer;
+	background: none;
+	background-color: orange;
+	color: var(--blue-scale-4);
+	font-weight: bold;
+}
+#keys > #key-add:hover,
+#keys > #key-minus:hover,
+#keys > #key-multi:hover,
+#keys > #key-divide:hover{
+	background-color: orangered;
+}
+#key-equal.key-equal:hover{
+	background-color: none;
+	background: linear-gradient( to right, orange, red);
+}
+
+
+#keys > div.keyDown{
+	background: none;
+	background-color: orange;
+	color: var(--blue-scale-4);
+	font-weight: bold;
+}
+
+#key-equal.key-equal{
+	background: linear-gradient( to right, var(--blue-scale-1), var(--blue-scale-2) );
+	width: 91.5%;
+	grid-area: 5/3/span 1/span 2;
+	z-index: 1;
+	justify-content: flex-end;
+	padding-right: calc(25% - 0.5*var(--font-size-2));
+}
+
+#key-AC, #key-backward{
+	color: var(--blue-scale-1);
+	font-weight: var(--font-weight-2);
+
+}
+
+#key-divide, #key-multi, #key-add, #key-minus{
+	background-color: var(--blue-scale-4);
+}
+
+#key-divide{
+	grid-area: 1 / 4;
+}
+#key-multi{
+	grid-area: 2 / 4; 
+}
+#key-add{
+	grid-area: 3 / 4; 
+}
+#key-minus{
+	grid-area: 4 / 4; 
+}
+
+
+
