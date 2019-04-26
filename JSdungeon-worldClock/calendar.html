@@ -1,0 +1,43 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>calendar</title>
+	<link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:700,700i,800" rel="stylesheet">
+	<link rel="stylesheet" href="css/calendar.css">
+	<script src="js/timeZoneNames-en.js"></script>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+</head>
+<body>
+	
+	<div id="calendar">
+		<div id="title">WORLD CLOCK</div>
+		<ul>
+			<template>
+				<li>
+					<div class="city"></div>
+					<div class="date"></div>
+					<div class="time"></div>
+				</li>
+			</template>
+			<li data-timezone = 'Asia/Taipei'>
+				<div class="city">TAIPEI</div>
+				<div class="date">Apr 26, 2019</div>
+				<div class="time">06:18:55</div>
+			</li>
+		</ul>
+	</div>
+
+	
+	<footer>
+		Double click to remove timezone
+	</footer>
+
+	
+	<div id="menu" class="hide">
+		
+	</div>
+
+	<script src="js/calendar.js"></script>
+</body>
+</html>
