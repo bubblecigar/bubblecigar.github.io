@@ -14,6 +14,7 @@ function initialize(){
 	document.querySelector('li').addEventListener('dblclick',function(e){
 		this.remove();
 	},true);
+	updateInfo(document.querySelector('li'));
 	setInterval(()=>{
 		date = new Date();
 		let list = document.querySelectorAll('li');
