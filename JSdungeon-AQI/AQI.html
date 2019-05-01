@@ -1,0 +1,111 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>AQI</title>
+	<link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
+	<link rel="stylesheet" href="css/AQI.css">
+	<link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC:400,700|Open+Sans:400,700" rel="stylesheet">
+	<script src="js/store.js"></script>
+	<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+
+</head>
+<body>
+
+<div id="bodyWrap">
+
+	<div id="cover" v-show='showMenu' @click='toogleMenu'></div>
+
+	<div class="wrapper1">
+		<h1>空氣品質指標 (AQI)</h1>
+		<ul id="zone-Menu" @click='toogleMenu'>
+			<li id='placeholder'>{{ selectedCounty }}</li>
+			<ul :class='{show : showMenu}'>
+				<li v-for='el in countyList' @click='selectCounty'>{{ el }}</li>
+			</ul>
+		</ul>
+	</div>
+
+	<div class="wrapper2">
+		<div id="table">
+			<div class="AQI-50">0～50</div>
+			<div class="label">良好</div>
+			<div class="AQI-100">51～100</div>
+			<div class="label">普通</div>
+			<div class="AQI-150">101～150</div>
+			<div class="label">對敏感族群</br>不健康</div>
+			<div class="AQI-200">151～200</div>
+			<div class="label">對所有族群</br>不健康</div>
+			<div class="AQI-300">201～300</div>
+			<div class="label">非常不健康</div>
+			<div class="AQI-400">301～400</div>
+			<div class="label">危害</div>
+		</div>
+	</div>
+	
+
+	<div id="updateBanner">
+		<div id="zone" v-show='!(selectedCounty === "請選擇地區")'>{{ selectedCounty }}</div>
+		<div id="horiLine"></div>
+		<div id="date">{{ updateString }}</div>
+	</div>
+	
+	<div id="subZone-details">
+		
+		<div class="subZone-name">{{ selectedSite.SiteName }}</div>
+		<div class="subZone-AQI" :class='[statusClass(selectedSite)]'>{{ selectedSite.AQI }}</div>
+		<ul id='details'>
+			<li>
+				<h3>臭氧</h3>
+				<h4>O<sub>3</sub> (ppb)</h4>
+				<div id="O3">{{ selectedSite.O3}}</div>
+			</li>
+			<li>
+				<h3>懸浮微粒</h3>
+				<h4>PM<sub>10</sub> (μg/m³)</h4>
+				<div id="pm10">{{ selectedSite.PM10 }}</div>
+			</li>
+			<li>
+				<h3>細懸浮微粒</h3>
+				<h4>PM<sub>2.5</sub> (μg/m³)</h4>
+				<div id="pm25">{{ selectedSite['PM2.5'] }}</div>
+			</li>
+			<li>
+				<h3>一氧化碳</h3>
+				<h4>CO (ppm)</h4>
+				<div id="CO">{{ selectedSite.CO }}</div>
+			</li>
+			<li>
+				<h3>二氧化硫</h3>
+				<h4>SO<sub>2</sub> (ppb)</h4>
+				<div id="SO2">{{ selectedSite.SO2 }}</div>
+			</li>
+			<li>
+				<h3>二氧化氮</h3>
+				<h4>NO<sub>2</sub> (ppb)</h4>
+				<div id="NO2">{{ selectedSite.NO2 }}</div>
+			</li>
+		</ul>
+	</div>
+
+	<ul id="subZone-menu">
+		<li v-for='el in siteNameList' @click='selectSite(el)'>
+			<div class="subZone-name">{{ el.SiteName }}</div>
+			<div class="subZone-AQI" 
+				:class='[statusClass(el)]'
+			>{{ el.AQI }}</div>
+		</li>
+	</ul>	
+</div>
+
+<footer>
+		<span>
+			資料來源：行政院環境保護署
+		</span>
+		<span>
+			Copyright © 2019 HexSchool. All rights reserved.
+		</span>
+	</footer>
+	<script src="js/AQI.js"></script>	
+</body>
+</html>
