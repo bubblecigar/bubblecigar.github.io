@@ -68,7 +68,24 @@ h1{
 	background-color: rgba(0,0,0,0.5);
 	width: 100vw;
 	height: 100vh;
-
+}
+#loadingCover{
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0,0.9);
+	width: 100vw;
+	height: 100vh;
+	z-index: 99;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+}
+#loadingCover img{
+	width: 1em;
+	height: 1em;
+	margin-right: 1em;
 }
 
 .wrapper1{

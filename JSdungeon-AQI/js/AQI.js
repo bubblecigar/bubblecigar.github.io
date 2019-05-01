@@ -1,29 +1,38 @@
-const heroku = `https://cors-anywhere.herokuapp.com/`;
-const url = `${heroku}http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=SiteName&$skip=0&$top=1000&format=json`;
 
+function fecthData(){
 
-var dataBase = [];
-if(!store.get('AQI')){
-	fetch(url).then(response=>{
+	const heroku = `https://cors-anywhere.herokuapp.com/`;
+	const url = `${heroku}http://opendata.epa.gov.tw/webapi/Data/REWIQA/?$orderby=SiteName&$skip=0&$top=1000&format=json`;
+	var dataBase = [];
+	
+	fetch(url)
+	.then(response=>{
 		return response.json();
 	})
 	.then(promise=>{
 		const ar = JSON.parse(JSON.stringify(promise));
 		console.log(ar);
 		store.set('AQI',ar);
+		vue.data = ar;
+		vue.fetchFinished = true;
+
+		let date = new Date();
+		let str = '';
+		str = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()} 更新`;
+		vue.updateString = str;
 	})
 	.catch(er=>{
 		console.log(er);
 	});
-}else{
-	dataBase = store.get('AQI');
+	return []
 }
 
 
 const vue = new Vue({
 	el:'#bodyWrap',
 	data:{
-		data: dataBase,
+		fetchFinished: false,
+		data: fecthData(),
 		showMenu: false,
 		selectedCounty: '請選擇地區',
 		updateString: '',
@@ -38,16 +47,17 @@ const vue = new Vue({
 			SO2: '--',
 			NO2: '--',
 			status: ''
-		},
-
+		}
 	},
 	methods:{
+		test: function(){
+			return []
+		},
 		toogleMenu: function(){
 			this.showMenu = !this.showMenu;
 		},
 		selectCounty: function(){
 			this.selectedCounty = event.target.textContent;
-			this.updateTime();
 			this.selectedSite = {
 				County: '',
 				SiteName: '--',
@@ -61,23 +71,26 @@ const vue = new Vue({
 				status: ''
 			}
 		},
-		updateTime: function(){
-			let date = new Date();
-			let str = '';
-			str = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()} 更新`;
-			this.updateString = str;
-		},
 		selectSite: function(el){
 			this.selectedSite = el;
 		},
 		statusClass: function(el){
-			if (el.AQI > 50) {
-				return 'AQI-100'
-			}else{
+			if (el.AQI <= 50) {
 				return 'AQI-50'
+			}else if(el.AQI <= 100){
+				return 'AQI-100'
+			}else if(el.AQI <= 150){
+				return 'AQI-150'
+			}else if(el.AQI <= 200){
+				return 'AQI-200'
+			}else if(el.AQI <= 300){
+				return 'AQI-300'
+			}else if(el.AQI <= 400){
+				return 'AQI-400'
+			}else{
+				return ''
 			}
 		}
-
 	},
 	computed:{
 		countyList: function(){
@@ -101,5 +114,3 @@ const vue = new Vue({
 		
 	}
 });
-
-console.log(vue);
