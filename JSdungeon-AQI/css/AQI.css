@@ -33,10 +33,6 @@
 	min-height: 100vh;
 }
 
-h1{
-	margin-bottom: 15px;
-}
-
 footer{
 	background-color: var(--black);
 	color: var(--white);
@@ -58,7 +54,8 @@ h1{
 	font-size: 40px;
 	font-weight: bold;
 	display: inline-block;
-
+	margin-bottom: 15px;
+	white-space: nowrap;
 }
 
 #cover{
