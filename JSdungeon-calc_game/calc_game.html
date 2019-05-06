@@ -1,0 +1,76 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>calc game</title>
+	<link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i" rel="stylesheet">
+	<link rel="stylesheet" href="css/calc_game.css">
+	<script src="js/vue.js"></script>
+</head>
+<body>
+	
+<div id="vue" tabindex="-1" @keydown='keydown' @keyup='keyup' :class='{fadeOut:fadeOut}'>
+
+	<div id="scene-1" v-show='scene === 0'>
+		<div class="wrap-1">
+			<div class="a">
+				60
+			</div>
+			<div class="b"><sup>+−×÷</sup>SECONDS</br>CHALLENGE</div>
+		</div>
+
+		<div class="wrap-2">
+			<div class="button" @click='shiftScene' :class='{highlight:highlight}'>START!</div>
+			<div class="hint">try to answer as more as you can</div>
+
+		</div>
+	</div>
+
+	<div id="scene-2" v-show='scene === 1'>
+		<div class="wrap-1">
+			<div class="score-board">
+				<div class="a">60 SECONDS CHALLENGE</div>
+				<div class="b">
+					<div class="c">SCORE</div>
+					<div class="d">{{ score }}</div>
+				</div>
+			</div>
+			<div class="countdown-board">
+				{{ countDown }}
+			</div>
+		</div>
+		<div class="wrap-2" id="input_panel" >
+			<div id="num-1">
+				{{ num1 }}
+			</div>
+			<div id="op">
+				{{ op }}
+			</div>
+			<div id="num-2">
+				{{ num2 }}
+			</div>
+			<div id="eq">
+				=
+			</div>
+			<div id="ans">
+				<div id="ghostHouse" :class='{hide:ghostShouldHide}'>{{ inputAns }}</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="scene-3" v-show='scene === 2'>
+		<div class="wrap-1">
+			<div class="a">60 SECONDS CHALLENGE</div>
+			<div class="b">YOUR FINAL SCORE</div>
+			<div class="c" id='final-score'>{{ score }}</div>		
+		</div>
+		<div class="button" :class='{highlight:highlight}' @click='shiftScene'>TRY AGAIN!</div>
+	</div>
+
+</div>
+
+
+	<script src="js/calc_game.js"></script>
+</body>
+</html>
