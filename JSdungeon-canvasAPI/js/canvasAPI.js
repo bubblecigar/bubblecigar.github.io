@@ -659,9 +659,9 @@ function drawImage(img){
 function fillText(str){
 	let width = endPt.x - startPt.x;
 	let height = endPt.y - startPt.y;
-	let fs =  Math.pow((width*width+height*height),0.5);
-	ctx.textAlign = 'center';
-	ctx.textBaseline = 'middle';
+	let fs =  1.5*Math.pow((width*width+height*height),0.5);
+	ctx.textAlign = 'left';
+	ctx.textBaseline = 'top';
 
 	ctx.font = `${fs}px sans-serif`;
 	ctx.fillText(str,startPt.x,startPt.y);
