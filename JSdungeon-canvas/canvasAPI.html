@@ -1,0 +1,122 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>canvasAPI</title>
+	<link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/canvasAPI.css">
+	<link href="https://fonts.googleapis.com/css?family=Bad+Script|Bitter" rel="stylesheet">
+	
+<!-- 	<script src="js/vue.js"></script> -->
+</head>
+<body class='gridbg'>
+	<header>
+		<h1>
+			Canvas (noun)
+		</h1>
+		<h3>
+			a piece of cloth backed or framed as a surface for a painting.
+		</h3>
+		<h4>
+			// an artist's canvas
+		</h4>
+	</header>
+	<ul id="options-methods">
+		<!-- <a id="downLoad" href='' download="檔案名稱"><i class="fas fa-download"></i></a> -->
+		<li id="undo"><i class="fas fa-undo"></i></li>
+		<li id="redo"><i class="fas fa-redo"></i></li>
+		<li id="clearAll"><i class="fas fa-trash-alt"></i></li>
+	</ul>
+
+	<div class="wrapper">
+		<ul id="options-mode">
+			<div class='splitter'>Static</div>
+
+			<li id="fillRect" class="selected"><i class="fas fa-square"></i></li>
+			<li id="strokeRect"><i class="far fa-square"></i></li>
+			<li id="clearRect"><i class="fas fa-eraser"></i></li>
+			<li id="straightLine"><i class="fas fa-slash"></i></li>
+			<li id="strokeCircle"><i class="far fa-circle"></i></li>
+			<li id="fillCircle"><i class="fas fa-circle"></i></li>
+			<li id="createShadowBall"><i class="fas fa-dot-circle"></i></li>
+			<li id="fillText"><i class="fas fa-font"></i></li>
+			<!-- <li id="drawImage"><i class="far fa-image"></i></li> -->
+			<li id="pencil"><i class="fas fa-pencil-alt"></i></li>
+
+			<div class='splitter'>Animate</div>
+
+			<li id="createDynamicBall"><i class="fab fa-grav"></i></li>
+			<li id='createMarchingAnimal'><i class="fas fa-bug"></i></li>
+			<li id='createDynamicCorn'><i class="fas fa-ice-cream"></i></li>
+			<li id="createDynamicCircle"><i class="fas fa-compact-disc"></i></li>	
+		</ul>	
+
+		<canvas id="canvas" width="800px" height="400px"></canvas>	
+
+		<ul id="options-style">
+			<li id="fillStyle"><i class="fas fa-fill-drip"></i></li>
+			<li id="strokeStyle"><i class="fas fa-pen-nib"></i></li>
+			<li id="shadeStyle"><i class="fas fa-bacon"></i></li>
+			<li id="lineWidth"><i class="fas fa-highlighter"></i></li>
+			<li id="setLineDash"><i class="fas fa-ellipsis-h"></i></li>
+			<li id="random"><i class="fas fa-dice"></i></li>
+		</ul>	
+	</div>
+	<ul id="options-others" >
+		<!-- <li class='info'>bubblecigar@gmail.com:</li>
+		<a id="mail-me" href="mailto:bubblecigar@gmail.com"><i class="fas fa-envelope"></i></a> -->
+		<a id="downLoad" href='' download="檔案名稱"><i class="fas fa-download"></i>&nbsp;download</a>
+	</ul>
+	<p>
+		<img src="img/randomModeDemo.png" alt="">
+		<i class="fas fa-dice"></i> Random-Style Mode</br>
+		&nbsp; - press the dice button at the right to turn on the random-style mode.</br>
+		&nbsp; - in random-style mode, styles would be re-rolled in each stroke.</br>
+		&nbsp; - the re-rolled styles include filling color, stroking color, shadow color, line width, and dash interval</br>
+		&nbsp; - stroke arbitrarily on the canvas, and feel the power of randomness.</br>
+	</p>
+	
+	<p>
+		<img src="img/createDynamicBall.png" alt="">
+		<i class="fab fa-grav"></i> CreateDynamicBall</br>
+		 &nbsp; - press and drag the mouse to control the size and initial velocity of the ball.
+		</br>
+		 &nbsp; - your dragging direction would determine the direction of the initial velocity.
+		</br>
+		 &nbsp; - watch the ball bouncing within the canvas!
+
+	</p>
+	
+	<p>
+		<img src="img/createMarchingWorm.png" alt="">
+		<i class="fas fa-bug"></i> CreateMarchingWorm<br>
+		&nbsp; - press and drag the mouse to control the size of the worm.</br>
+		&nbsp; - the worm would then move randomly and leave its trace on the canvas.</br>
+		&nbsp; - it might take a lot of undos to make a result that works for you :(</br>
+	</p>
+	
+	<p>
+		<img src="img/createDynamicCircle.png" alt="">
+		<i class="fas fa-compact-disc"></i> CreateDynamicDisc<br>
+		&nbsp; - press and drag the mouse to control the size of the disc.</br>
+		&nbsp; - the disc would then be re-drawn eight times, each time with a smaller radius.</br>
+		&nbsp; - if two discs are overlapped and their birth time are close enough, they may seems inlaid with each other.</br>
+	</p>
+
+	<p>
+		<img src="img/createDynamicCorn.png" alt="">
+		<i class="fas fa-ice-cream"></i> CreateDynamicCorn<br>
+		&nbsp; - press and drag the mouse to control the size of the seed.</br>
+		&nbsp; - release the mouse to see the corn grow.</br>
+		&nbsp; - note that, your dragging direction would determine the growing direction of the corn.</br>
+	</p>
+	
+	<footer>
+		<a href="#" id="to-top"><i class="fas fa-home"></i> to top</a>
+		<a id='github-page' target="_BLANK" href='https://bubblecigar.github.io/JSdungeon-canvasAPI/canvasAPI.html'><i class="fab fa-github"></i> github</a>
+		<a id="mail-me" href="mailto:bubblecigar@gmail.com"><i class="fas fa-envelope"> </i>  bubblecigar@gmail.com</a>
+	</footer>
+
+	<script src="js/canvasAPI.js"></script>
+</body>
+</html>
