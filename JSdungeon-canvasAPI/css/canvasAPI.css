@@ -462,12 +462,12 @@ header{
 	justify-content: flex-start;
 	align-items: flex-start;
 	background-color: transparent;
-	position: fixed;
+	position: absolute;
 	z-index: -1;
 	flex-flow: column;
 	white-space: nowrap;
 
-	color: lightblue;
+	color: gray;
 }
 header > *{
 	margin: 10px;
