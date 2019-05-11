@@ -272,7 +272,7 @@ const ctx = canvas.getContext('2d');
 
 //options
 let mode;
-mode = 'fillRect';
+mode = 'createDynamicFlower';
 // mode = 'strokeRect';
 // mode = 'clearRect';
 // mode = 'straightLine';
@@ -557,6 +557,10 @@ function draw_endingPhase(mode){
 		case 'createDynamicCircle':
 			let d = createDynamicCircle();
 			animationLayer.addAnimatableObject(d);
+			break;
+		case 'createDynamicFlower':
+			let f = createDynamicFlower();
+			animationLayer.addAnimatableObject(f);
 			break;
 		default:
 			// donothing
@@ -884,6 +888,67 @@ function createDynamicCircle(){
 			this.r -= this.r_interval;
 			this.life--;
 			if (this.r <= 0 ) {this.r = 0}
+		}
+	}
+}
+
+function createDynamicFlower(){
+	let pt = createPt();
+	pt.x = (endPt.x + startPt.x)/2;
+	pt.y = (endPt.y + startPt.y)/2;
+	let radius = 0.5*Math.pow((startPt.x - endPt.x)*(startPt.x - endPt.x) + (startPt.y - endPt.y)*(startPt.y - endPt.y),0.5);
+	let color1 = ctx.fillStyle;
+	let color2 = ctx.strokeStyle;
+
+	return{
+		maxSize: radius,
+		currentSize: 0,
+		color1: color1,
+		color2: color2,
+		render: function(){
+
+			this.currentSize += this.maxSize/100;
+			if (this.currentSize >= this.maxSize) {return false}
+
+			ctx.save();
+			ctx.translate(pt.x,pt.y);
+
+			ctx.shadowOffsetX = 3;
+			ctx.shadowOffsetY = 3;
+			ctx.shadowColor = 'rgba(0,0,0,1)';
+			// ctx.strokeStyle = 'rgba(0,0,0,0)';
+
+			let buffer = this.currentSize;
+			pedals();
+			ctx.fillStyle = this.color1;
+			function pedals(c=0){	
+				ctx.rotate(Math.PI/5);
+				ctx.beginPath();
+				ctx.moveTo(0,0);
+				ctx.quadraticCurveTo(buffer,buffer*0.5,buffer,0);
+				ctx.quadraticCurveTo(buffer,-buffer*0.5,0,0);
+				ctx.fill();
+				// ctx.stroke();
+				c++;
+				if (c<12) {
+					pedals(c);
+				}	
+			}
+			// ctx.shadowColor = 'rgba(0,0,0,0)';
+			// ctx.shadowOffsetX = 1;
+			// ctx.shadowOffsetY = 1;
+			// ctx.strokeStyle = 'rgba(0,0,0,1)';
+			ctx.fillStyle = this.color2.slice(0,this.color2.lastIndexOf(','))+',1)';
+			center();
+			function center(l=buffer*0.2){
+				ctx.beginPath();
+				ctx.moveTo(l,0);
+				ctx.arc(0,0,l,0,Math.PI*2);
+				ctx.fill();
+				// ctx.stroke();
+			}
+			ctx.restore();
+			return true
 		}
 	}
 }
