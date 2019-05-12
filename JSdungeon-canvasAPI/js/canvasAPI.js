@@ -272,7 +272,7 @@ const ctx = canvas.getContext('2d');
 
 //options
 let mode;
-mode = 'createDynamicFlower';
+mode = 'fillRect';
 // mode = 'strokeRect';
 // mode = 'clearRect';
 // mode = 'straightLine';
@@ -925,10 +925,10 @@ function createDynamicFlower(){
 				ctx.rotate(Math.PI/5);
 				ctx.beginPath();
 				ctx.moveTo(0,0);
+				// ctx.stroke();
 				ctx.quadraticCurveTo(buffer,buffer*0.5,buffer,0);
 				ctx.quadraticCurveTo(buffer,-buffer*0.5,0,0);
 				ctx.fill();
-				// ctx.stroke();
 				c++;
 				if (c<12) {
 					pedals(c);
