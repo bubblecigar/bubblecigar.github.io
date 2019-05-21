@@ -889,7 +889,7 @@ const vue = new Vue({
 		script: function(){
 			return `
 				&lt;<i class='red'>canvas</i> <i class='green'>id</i>=<i class='yellow'>'canvas'</i> <i class='green'>width</i>=<i class='yellow'>'700px'</i> <i class='green'>height</i>=<i class='yellow'>'300px'</i>>&lt;/<i class='red'>canvas</i>><br>
-				&lt;<i class='red'>script</i> <i class='green'>src</i>=<i class='yellow'>'js/canvas.js'</i>> 
+				&lt;<i class='red'>script</i> <i class='green'>src</i>=<i class='yellow'>'https://bubblecigar.github.io/textAnimation/js/canvas.js'</i>> 
 				<span>text_animation('${this.text}', ${this.draw.name}, ${this.enter.name}, ${this.linger.name}, ${this.reEnter.name}, ${this.dotSize}, ${this.lineWidth}, '${this.fillColor}', '${this.strokeColor}')</span>
 				&lt;/<i class='red'>script</i>>
 			`
