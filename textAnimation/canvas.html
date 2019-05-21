@@ -1,0 +1,98 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>canvas</title>
+	<link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/canvas.css">
+	<script src="js/vue.js"></script>
+</head>
+<body>
+	
+	<canvas id="canvas" width="700px" height="300px"></canvas>
+
+	<div id="panel">
+		<div id="menu-1" :class='{hidden : menu1}'>
+			<header @click='toggleMenu1'>
+				Text Animation
+			</header>
+			<ul id="draw">
+				<h1>Pixel type</h1>
+				<li @click='setDraw("draw_dot")' :class="{'selected': draw.name === 'draw_dot'}">Dots</li>
+				<li @click='setDraw("draw_thread_row")' :class="{'selected': draw.name === 'draw_thread_row'}">Thread(row)</li>
+				<li @click='setDraw("draw_thread_col")' :class="{'selected': draw.name === 'draw_thread_col'}">Thread(col)</li>
+				<li @click='setDraw("draw_thread_web")' :class="{'selected': draw.name === 'draw_thread_web'}">Web</li>
+			</ul>
+			<ul id="enter">
+				<h1>Enter effect</h1>
+				<li @click='setEnter("enter_expand")' :class="{'selected': enter.name === 'enter_expand'}">Emerge</li>
+				<li @click='setEnter("enter_zoom")' :class="{'selected': enter.name === 'enter_zoom'}">Zoom in</li>
+				<li @click='setEnter("enter_emit_row")' :class="{'selected': enter.name === 'enter_emit_row'}">Weaver(row)</li>
+				<li @click='setEnter("enter_emit_diag")' :class="{'selected': enter.name === 'enter_emit_diag'}">Weaver(diag)</li>
+				<li @click='setEnter("enter_random")' :class="{'selected': enter.name === 'enter_random'}">Random</li>
+			</ul>
+			<ul id="linger">
+				<h1>Hover effect</h1>
+				<li @click='setLinger("linger_shrink")' :class="{'selected': linger.name === 'linger_shrink'}">Submerge</li>
+				<li @click='setLinger("linger_fall")' :class="{'selected': linger.name === 'linger_fall'}">Fall</li>
+				<li @click='setLinger("linger_scatter")' :class="{'selected': linger.name === 'linger_scatter'}">Scatter</li>
+				<li @click='setLinger("linger_ball")' :class="{'selected': linger.name === 'linger_ball'}">Ball</li>
+				<li @click='setLinger("linger_gravity")' :class="{'selected': linger.name === 'linger_gravity'}">Gravity</li>
+				<li @click='setLinger("linger_antiGravity")' :class="{'selected': linger.name === 'linger_antiGravity'}">Anti-Gravity</li>
+				<li @click='setLinger("linger_magnetic")' :class="{'selected': linger.name === 'linger_magnetic'}">Magnetic</li>
+			</ul>
+			<ul id="reEnter">
+				<h1>Re-Enter</h1>
+				<li @click='setReEnter("enter_expand")' :class="{'selected': reEnter.name === 'enter_expand'}">Emerge</li>
+				<li @click='setReEnter("enter_emit_row")' :class="{'selected': reEnter.name === 'enter_emit_row'}">Emit</li>
+				<li @click='setReEnter("enter_random")' :class="{'selected': reEnter.name === 'enter_random'}">Backward</li>
+			</ul>	
+		</div>
+		<div id="menu-2" :class='{hidden : menu2}'>
+			<header @click='toggleMenu2'>
+				Style Options
+			</header>
+			<ul id="options">
+				<li id="text">
+					<h1>Text</h1>
+					<input type="text" placeholder="text" v-model='text'>
+				</li>
+				<li>
+					<h1>Pixel size:</h1>
+					<input type="number" v-model.number='dotSize'>	
+				</li>
+				<li>
+					<h1>Line width:</h1>
+					<input type="number" v-model.number='lineWidth'>	
+				</li>
+				<li>
+					<h1>Pixel color:</h1>
+					<input type="text" v-model='fillColor'>	
+				</li>
+				<li>
+					<h1>Line color:</h1>
+					<input type="text" v-model='strokeColor'>	
+				</li>
+			</ul>	
+		</div>
+		<a id="button" href="#canvas" @click='submit()'>Play<i class="fas fa-play"></i></a>
+		<div id="menu-3" :class='{hidden : menu3}'>
+			<header @click='toggleMenu3'>
+				Source & API
+			</header>
+			<nav>
+				Source code: <a target='_BLANK' href="#">GitHub</a>
+			</nav>
+			<div id="script" v-html='script'></div>
+		</div>
+	</div>
+
+	
+
+
+
+
+
+	<script src="js/canvas.js"></script>
+</body>
+</html>
