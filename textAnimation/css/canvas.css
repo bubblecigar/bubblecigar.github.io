@@ -39,7 +39,7 @@ canvas:hover{
 
 a#button{
 	top: -30px;
-	right: 10px;
+	right: 0px;
     width: 100px;
     font-size: 16px;
     padding: 10px;
@@ -171,7 +171,7 @@ header::after{
     font-weight: bold;
     background-color: black;
     border-radius: 3px;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     font-size: 12px;
     font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
 }
@@ -183,6 +183,7 @@ header::after{
 }
 #menu-3 nav i:active{
 	background-color: white;
+	box-shadow: 0 0 3px black;
 	color: black;
 }
 
@@ -291,11 +292,16 @@ nav{
 #canvas-background{
 	position: absolute;
 	display: flex;
-	flex-flow: column nowrap;
+	flex-flow: row nowrap;
 	align-items: center;
-	top: -150px;
-	left: -40px;
-	
+	top: -30px;
+	right: 115px;
+	padding: 1px 7px;
+	border-radius: 5px;
+	background-color: cornflowerblue;
+	color: white; 
+	text-shadow: 0 0 3px white;
+	/*box-shadow: 0 0 3px black;*/	
 }
 #canvas-background i{
     padding: 5px;
@@ -306,11 +312,11 @@ nav{
 	cursor: pointer;
 }
 #canvas-background .fas.fa-adjust{
-	background: none;
-	color: black;
 	font-size: 18px;
 }
-
+#canvas-background .fas.fa-adjust:hover{
+	cursor: initial;
+}
 
 
 
