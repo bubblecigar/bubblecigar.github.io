@@ -12,6 +12,11 @@
 	<canvas id="canvas" width="700px" height="300px"></canvas>
 
 	<div id="panel">
+		<div id="canvas-background">
+			<i class="fas fa-plus" @click='lighter'></i>
+			<i class="fas fa-adjust"></i>
+			<i class="fas fa-minus" @click='darker'></i>
+		</div>
 		<div id="menu-1" :class='{hidden : menu1}'>
 			<header @click='toggleMenu1'>
 				Text Animation
@@ -75,7 +80,7 @@
 				</li>
 			</ul>	
 		</div>
-		<a id="button" href="#canvas" @click='submit()'>Play<i class="fas fa-play"></i></a>
+		<a id="button" href="#" @click='submit()'>Play<i class="fas fa-play"></i></a>
 		<div id="menu-3" :class='{hidden : menu3}'>
 			<header @click='toggleMenu3'>
 				API

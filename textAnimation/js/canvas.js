@@ -329,7 +329,7 @@ function thirdLength(x,y){
 }
 
 
-text_animation();
+text_animation(); // load default animation
 
 function text_animation(text = 'Text', draw = draw_dot , enter = enter_expand, linger = linger_shrink, reEnter = enter_expand, dotSize = 2, lineWidth = 1, fillColor = 'black', strokeColor = 'black'){
 	animationLayer.clear();
@@ -845,6 +845,8 @@ const vue = new Vue({
 		linger: linger_shrink,
 		reEnter: enter_expand,
 
+		canvas_opacity: 0.85,
+
 		menu1: true,
 		menu2: true,
 		menu3: true
@@ -889,6 +891,22 @@ const vue = new Vue({
 			s = s.replace(/\n/g,'');
 			s = s.replace(/	/g,'');
 			navigator.clipboard.writeText(s);
+		},
+		lighter: function(){
+			this.canvas_opacity += 0.05;
+			if (this.canvas_opacity>1) {
+				this.canvas_opacity = 1;
+			}
+			let s = `rgba(255,255,255,${this.canvas_opacity})`;
+			canvas.style.backgroundColor = s;
+		},
+		darker: function(){
+			this.canvas_opacity -= 0.05;
+			if (this.canvas_opacity<0) {
+				this.canvas_opacity = 0;
+			}
+			let s = `rgba(255,255,255,${this.canvas_opacity})`;
+			canvas.style.backgroundColor = s;
 		}
 	},
 	computed:{
@@ -901,6 +919,13 @@ const vue = new Vue({
 				&lt;<i class='red'>script</i> <i class='green'>src</i>=<i class='yellow'>'https://bubblecigar.github.io/textAnimation/js/canvas.js'</i>> 
 				<span>text_animation('${this.text}', ${this.draw.name}, ${this.enter.name}, ${this.linger.name}, ${this.reEnter.name}, ${this.dotSize}, ${this.lineWidth}, '${this.fillColor}', '${this.strokeColor}')</span>
 				&lt;/<i class='red'>script</i>>
+			`
+		},
+		canvas_rgba: function(){
+
+		
+			return `
+				rgba(255,255,255,${this.canvas_opacity})
 			`
 		}
 	}
