@@ -1,0 +1,38 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>stars</title>
+	<link rel="stylesheet" href="demo.css">
+
+
+	<style>
+		canvas{
+			background: url(aerial-shot-dark-from-above-1358699.jpg);
+			background-position: center -210px;
+			background-size: cover;
+			/*transition: background 3s;*/
+			animation: move 10s ease-in-out;
+			animation-iteration-count: infinite;
+			animation-direction: alternate-reverse;
+		}
+		@keyframes move{
+			0%{
+				background-position: center -210px;
+			}
+			100%{
+				background-position: center -100px;
+			}
+		}
+	</style>
+
+
+
+</head>
+<body>
+
+
+
+<canvas id='canvas' width='700px' height='300px'></canvas><script src='https://bubblecigar.github.io/textAnimation/js/canvas.js'></script><script>text_animation('stars', draw_dot, enter_random, linger_scatter, enter_random, 0.8, 0, 'white', 'rgba(0,0,0,0.5)')</script>
+
+</body>
+</html>

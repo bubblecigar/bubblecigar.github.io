@@ -41,11 +41,11 @@ function getLength(pt1,pt2){
 }
 
 
-canvas.addEventListener('mousemove',(e)=>{
-	cursorPt.x = e.layerX;
-	cursorPt.y = e.layerY;
+// canvas.addEventListener('mousemove',(e)=>{
+// 	cursorPt.x = e.layerX;
+// 	cursorPt.y = e.layerY;
 
-},false);
+// },false);
 
 const cursorPt = createPt();
 
@@ -241,14 +241,14 @@ function createBouncingBall(initial_x=100,initial_y=100,initial_radius=10){
 	return a
 }
 
-function createTextMap(text='canvas',x=canvas.width/2,y=canvas.height/2,interval=5, rowBase = true){
+function createTextMap(text='canvas',x=canvas.width/2,y=canvas.height/2,interval=5, rowBase = true, font = 'bold 250px serif'){
 
 	clearAll();
 	ctx.save();
 	ctx.beginPath();
 	ctx.fillStyle = 'rgba(0,0,0,0.3)';
 	ctx.strokeStyle = 'rgba(0,0,0,0.3)';
-	ctx.font = 'bold 250px serif';
+	ctx.font = font;
 
 	ctx.textBaseline = 'middle';
 	ctx.textAlign = 'center';

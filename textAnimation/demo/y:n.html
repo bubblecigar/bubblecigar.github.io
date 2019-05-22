@@ -1,0 +1,36 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>y/n</title>
+	<link rel="stylesheet" href="demo.css">
+
+	<style>
+		img{
+			max-width: 800px;
+			min-width: 700px;
+			position: absolute;
+		}
+		canvas{
+			border: 0;
+			width: 217px;
+		    height: 132px;
+		    transform: translate3d(-94px,4px,0) rotate(-2deg);
+
+		}
+	</style>
+</head>
+<body>
+
+<img src="adult-blank-businessman-326576.jpg" alt="">
+
+<canvas id='canvas' width='700px' height='300px'></canvas><script src='https://bubblecigar.github.io/textAnimation/js/canvas.js'></script>
+<script>text_animation('Hi~', draw_dot, enter_zoom, linger_ball, enter_expand, 5, 5, 'black', 'black');
+</script>
+<script>
+	animationLayer.animatedObjects[0] = {render:function(){
+		return false
+	}};
+</script>
+
+</body>
+</html>
