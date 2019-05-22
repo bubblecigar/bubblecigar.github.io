@@ -830,107 +830,107 @@ function draw_thread_web(){
 	ctx.restore();	
 }
 
+if (document.querySelector('#panel')) {
 
+	const vue = new Vue({
+		el: '#panel',
+		data:{
+			text:'Text',
+			dotSize:2,
+			lineWidth: 1,
+			fillColor:'black',
+			strokeColor:'black',
+			draw: draw_dot,
+			enter: enter_expand,
+			linger: linger_shrink,
+			reEnter: enter_expand,
 
-const vue = new Vue({
-	el: '#panel',
-	data:{
-		text:'Text',
-		dotSize:2,
-		lineWidth: 1,
-		fillColor:'black',
-		strokeColor:'black',
-		draw: draw_dot,
-		enter: enter_expand,
-		linger: linger_shrink,
-		reEnter: enter_expand,
+			canvas_opacity: 0.85,
 
-		canvas_opacity: 0.85,
-
-		menu1: true,
-		menu2: true,
-		menu3: true
-	},
-	methods:{
-		setDraw: function(arg){
-			this.draw = window[arg];
+			menu1: true,
+			menu2: true,
+			menu3: true
 		},
-		setEnter: function(arg){
-			this.enter = window[arg];
-		},
-		setLinger: function(arg){
-			this.linger = window[arg];
-		},
-		setReEnter: function(arg){
-			this.reEnter = window[arg];
-		},
-		submit: function(){
-			text_animation(this.text, this.draw, this.enter, this.linger, this.reEnter, this.dotSize, this.lineWidth, this.fillColor, this.strokeColor);
-		},
-		selectDraw: function(arg){
-			if (this.draw===window[arg]) {
-				return true
-			}else{
-				return false
+		methods:{
+			setDraw: function(arg){
+				this.draw = window[arg];
+			},
+			setEnter: function(arg){
+				this.enter = window[arg];
+			},
+			setLinger: function(arg){
+				this.linger = window[arg];
+			},
+			setReEnter: function(arg){
+				this.reEnter = window[arg];
+			},
+			submit: function(){
+				text_animation(this.text, this.draw, this.enter, this.linger, this.reEnter, this.dotSize, this.lineWidth, this.fillColor, this.strokeColor);
+			},
+			selectDraw: function(arg){
+				if (this.draw===window[arg]) {
+					return true
+				}else{
+					return false
+				}
+			},
+			toggleMenu1: function(){
+				this.menu1 = !this.menu1;
+			},
+			toggleMenu2: function(){
+				this.menu2 = !this.menu2;
+			},
+			toggleMenu3: function(){
+				this.menu3 = !this.menu3;
+			},
+			copySnippet: function(){
+				let s = document.querySelector('#script').textContent;
+				let first = s.indexOf('<');
+				let last = s.lastIndexOf('>');
+				s = s.slice(first, last+1);
+				s = s.replace(/\n/g,'');
+				s = s.replace(/	/g,'');
+				navigator.clipboard.writeText(s);
+			},
+			lighter: function(){
+				this.canvas_opacity += 0.05;
+				if (this.canvas_opacity>1) {
+					this.canvas_opacity = 1;
+				}
+				let s = `rgba(255,255,255,${this.canvas_opacity})`;
+				canvas.style.backgroundColor = s;
+			},
+			darker: function(){
+				this.canvas_opacity -= 0.05;
+				if (this.canvas_opacity<0) {
+					this.canvas_opacity = 0;
+				}
+				let s = `rgba(255,255,255,${this.canvas_opacity})`;
+				canvas.style.backgroundColor = s;
 			}
 		},
-		toggleMenu1: function(){
-			this.menu1 = !this.menu1;
-		},
-		toggleMenu2: function(){
-			this.menu2 = !this.menu2;
-		},
-		toggleMenu3: function(){
-			this.menu3 = !this.menu3;
-		},
-		copySnippet: function(){
-			let s = document.querySelector('#script').textContent;
-			let first = s.indexOf('<');
-			let last = s.lastIndexOf('>');
-			s = s.slice(first, last+1);
-			s = s.replace(/\n/g,'');
-			s = s.replace(/	/g,'');
-			navigator.clipboard.writeText(s);
-		},
-		lighter: function(){
-			this.canvas_opacity += 0.05;
-			if (this.canvas_opacity>1) {
-				this.canvas_opacity = 1;
+		computed:{
+			selected_draw: function(){
+				return this.draw.name
+			},
+			script: function(){
+				return `
+					&lt;<i class='red'>canvas</i> <i class='green'>id</i>=<i class='yellow'>'canvas'</i> <i class='green'>width</i>=<i class='yellow'>'700px'</i> <i class='green'>height</i>=<i class='yellow'>'300px'</i>>&lt;/<i class='red'>canvas</i>><br>
+					&lt;<i class='red'>script</i> <i class='green'>src</i>=<i class='yellow'>'https://bubblecigar.github.io/textAnimation/js/canvas.js'</i>> 
+					<span>text_animation('${this.text}', ${this.draw.name}, ${this.enter.name}, ${this.linger.name}, ${this.reEnter.name}, ${this.dotSize}, ${this.lineWidth}, '${this.fillColor}', '${this.strokeColor}')</span>
+					&lt;/<i class='red'>script</i>>
+				`
+			},
+			canvas_rgba: function(){
+
+			
+				return `
+					rgba(255,255,255,${this.canvas_opacity})
+				`
 			}
-			let s = `rgba(255,255,255,${this.canvas_opacity})`;
-			canvas.style.backgroundColor = s;
-		},
-		darker: function(){
-			this.canvas_opacity -= 0.05;
-			if (this.canvas_opacity<0) {
-				this.canvas_opacity = 0;
-			}
-			let s = `rgba(255,255,255,${this.canvas_opacity})`;
-			canvas.style.backgroundColor = s;
 		}
-	},
-	computed:{
-		selected_draw: function(){
-			return this.draw.name
-		},
-		script: function(){
-			return `
-				&lt;<i class='red'>canvas</i> <i class='green'>id</i>=<i class='yellow'>'canvas'</i> <i class='green'>width</i>=<i class='yellow'>'700px'</i> <i class='green'>height</i>=<i class='yellow'>'300px'</i>>&lt;/<i class='red'>canvas</i>><br>
-				&lt;<i class='red'>script</i> <i class='green'>src</i>=<i class='yellow'>'https://bubblecigar.github.io/textAnimation/js/canvas.js'</i>> 
-				<span>text_animation('${this.text}', ${this.draw.name}, ${this.enter.name}, ${this.linger.name}, ${this.reEnter.name}, ${this.dotSize}, ${this.lineWidth}, '${this.fillColor}', '${this.strokeColor}')</span>
-				&lt;/<i class='red'>script</i>>
-			`
-		},
-		canvas_rgba: function(){
+	});
 
-		
-			return `
-				rgba(255,255,255,${this.canvas_opacity})
-			`
-		}
-	}
-});
-
-
+}
 
 
