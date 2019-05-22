@@ -155,7 +155,7 @@ header::after{
 	height: 170px;
 }
 #menu-3{
-	height: 190px;
+	height: 193px;
 	padding-right: 10px;
 }
 
@@ -164,8 +164,8 @@ header::after{
 }
 #menu-3 nav i{
 	position: absolute;
-    right: 10px;
-    top: 110px;
+    right: 5px;
+    top: 123px;
     color: white;
     padding: 5px;
     font-weight: bold;
