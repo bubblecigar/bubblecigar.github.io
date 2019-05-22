@@ -328,9 +328,6 @@ function thirdLength(x,y){
 	return Math.pow(x*x+y*y,0.5)
 }
 
-
-text_animation(); // load default animation
-
 function text_animation(text = 'Text', draw = draw_dot , enter = enter_expand, linger = linger_shrink, reEnter = enter_expand, dotSize = 2, lineWidth = 1, fillColor = 'black', strokeColor = 'black'){
 	animationLayer.clear();
 	animationLayer.addAnimatableObject(bouncingBall);
@@ -832,6 +829,8 @@ function draw_thread_web(){
 
 if (document.querySelector('#panel')) {
 
+	text_animation(); // load default animation
+
 	const vue = new Vue({
 		el: '#panel',
 		data:{
@@ -916,9 +915,12 @@ if (document.querySelector('#panel')) {
 			script: function(){
 				return `
 					&lt;<i class='red'>canvas</i> <i class='green'>id</i>=<i class='yellow'>'canvas'</i> <i class='green'>width</i>=<i class='yellow'>'700px'</i> <i class='green'>height</i>=<i class='yellow'>'300px'</i>>&lt;/<i class='red'>canvas</i>><br>
-					&lt;<i class='red'>script</i> <i class='green'>src</i>=<i class='yellow'>'https://bubblecigar.github.io/textAnimation/js/canvas.js'</i>> 
+					&lt;<i class='red'>script</i> <i class='green'>src</i>=<i class='yellow'>'https://bubblecigar.github.io/textAnimation/js/canvas.js'</i>>&lt;/<i class='red'>script</i>>
+					</br>
+					&lt;<i class='red'>script</i>>
 					<span>text_animation('${this.text}', ${this.draw.name}, ${this.enter.name}, ${this.linger.name}, ${this.reEnter.name}, ${this.dotSize}, ${this.lineWidth}, '${this.fillColor}', '${this.strokeColor}')</span>
 					&lt;/<i class='red'>script</i>>
+					
 				`
 			},
 			canvas_rgba: function(){
