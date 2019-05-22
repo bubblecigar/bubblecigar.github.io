@@ -104,11 +104,6 @@ header::after{
 	display: none;
 }*/
 
-#menu-1.hidden,
-#menu-2.hidden,
-#menu-3.hidden{
-	height: 37px;
-}
 
 
 #menu-2 header{
@@ -140,9 +135,16 @@ header::after{
 	padding-left: 10px;
 	margin-bottom: 20px;
 	overflow: hidden;
-	transition: height 1s;
 	border-radius: 5px;
 	box-shadow: 0px 1px 2px black;
+	height: auto;	
+	transition: height 1s;
+}
+
+#menu-1.hidden,
+#menu-2.hidden,
+#menu-3.hidden{
+	height: 37px;
 }
 #menu-1{
 	height: 215px;
@@ -156,6 +158,32 @@ header::after{
 	padding-right: 10px;
 }
 
+#menu-3 nav{
+	position: relative;
+}
+#menu-3 nav i{
+	position: absolute;
+    right: 10px;
+    top: 110px;
+    color: white;
+    padding: 5px;
+    font-weight: bold;
+    background-color: black;
+    border-radius: 3px;
+    border: 1px solid black;
+    font-size: 12px;
+    font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+}
+#menu-3 nav i::before{
+	font-family: 'font awesome 5 free';
+}
+#menu-3 nav i:hover{
+	cursor: pointer;
+}
+#menu-3 nav i:active{
+	background-color: white;
+	color: black;
+}
 
 #draw{
 	display: flex;

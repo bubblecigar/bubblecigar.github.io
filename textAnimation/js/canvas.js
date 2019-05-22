@@ -354,7 +354,7 @@ function text_animation(text = 'Text', draw = draw_dot , enter = enter_expand, l
 			if (!beginningIndex) {beginningIndex = rowIndex + colIndex}
 			if (rowIndex + colIndex < beginningIndex) { beginningIndex = rowIndex + colIndex}
 
-			if (draw === draw_thread_row) {
+			if (draw === draw_thread_row && animationLayer.animatedObjects.length != 1) {
 				a.monitoringObjects.push(animationLayer.animatedObjects[animationLayer.animatedObjects.length-1]);
 			}
 
@@ -880,6 +880,15 @@ const vue = new Vue({
 		},
 		toggleMenu3: function(){
 			this.menu3 = !this.menu3;
+		},
+		copySnippet: function(){
+			let s = document.querySelector('#script').textContent;
+			let first = s.indexOf('<');
+			let last = s.lastIndexOf('>');
+			s = s.slice(first, last+1);
+			s = s.replace(/\n/g,'');
+			s = s.replace(/	/g,'');
+			navigator.clipboard.writeText(s);
 		}
 	},
 	computed:{
@@ -896,13 +905,6 @@ const vue = new Vue({
 		}
 	}
 });
-
-
-
-
-
-
-
 
 
 
