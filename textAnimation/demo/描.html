@@ -3,14 +3,22 @@
 	<meta charset="UTF-8">
 	<title>描</title>
 	<link rel="stylesheet" href="demo.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 	<style>
 		body{
 			background-image: url(album-background-blank-1089842.jpg);
 			background-position: center;
 			background-size: cover;
+			background-repeat: no-repeat;
+			justify-content: center;
 		}
 		canvas{
 			box-shadow: none;
+		}
+		#back{
+			top: initial;
+			bottom: 50px;
+
 		}
 	</style>
 </head>
@@ -23,6 +31,13 @@ bouncingBall.property.fillColor = 'transparent';
 
 text_animation('描', draw_thread_row, enter_zoom, linger_gravity, enter_expand, 3.5, 0.5, 'black', 'gray')</script>
 
+<a id="back" onclick='back()'> Back </a>
+
+<script>
+	function back(){
+		window.history.back();
+	}
+</script>
 
 </body>
 </html>

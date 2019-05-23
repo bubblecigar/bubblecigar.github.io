@@ -2,7 +2,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Demo</title>
-	<link rel="stylesheet" href="demo_index.css">
+	<link rel="stylesheet" href="demo.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 <!-- 
 	<style>
 		body{
@@ -18,49 +19,45 @@
 </head>
 <body>
 
-<div id="background">
-<!-- 	<img src='../img/black-and-white-city-houses-skyline.jpg' alt=""> -->
-
-	<div id="touch-zone">
-		<div class="space">
-			<div class="wrapper">
-
-				<section id="雪">
-					<a href="雪.html">
-						<img src="preview/雪.png" alt="雪">
-					</a>			
-				</section>
-				<section id="花">
-					<a href="花.html">
-						<img src="preview/花.png" alt="花">
-					</a>				
-				</section>
-				<section id="織">
-					<a href="織.html">
-						<img src="preview/織.png" alt="織">
-					</a>
-				</section>
-				<section id="鷹">
-					<a href="鷹.html">
-						<img src="preview/鷹.png" alt="鷹">
-					</a>
-				</section>
-				<section id="stars">
-					<a href="stars.html">
-						<img src="preview/stars.png" alt="stars">					
-					</a>
-				</section>
-				<section id="描">
-					<a href="描.html">
-						<img src="preview/描.png" alt="描">
-					</a>
-				</section>
-			</div>
-		</div>
-	</div>
-
-
+<div class="wrapper">
+	<section id="雪">
+		<a href="雪.html">
+			<img src="preview/雪.png" alt="雪">
+		</a>			
+	</section>
+	<section id="花">
+		<a href="花.html">
+			<img src="preview/花.png" alt="花">
+		</a>				
+	</section>
+	<section id="織">
+		<a href="織.html">
+			<img src="preview/織.png" alt="織">
+		</a>
+	</section>
+	<section id="鷹">
+		<a href="鷹.html">
+			<img src="preview/鷹.png" alt="鷹">
+		</a>
+	</section>
+	<section id="stars">
+		<a href="stars.html">
+			<img src="preview/stars.png" alt="stars">					
+		</a>
+	</section>
+	<section id="描">
+		<a href="描.html">
+			<img src="preview/描.png" alt="描">
+		</a>
+	</section>
 </div>
 
+<a id="back" onclick='back()'> Back </a>
+
+<script>
+	function back(){
+		window.history.back();
+	}
+</script>
 </body>
 </html>
