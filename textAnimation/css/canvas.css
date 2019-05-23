@@ -104,16 +104,8 @@ header::after{
 	content: '\f054';
 	margin-left: 0;
 }
-#menu-4 a{
-	text-decoration: none;
-	color: black;
-}
-#menu-4 a:hover{
-	text-shadow: 1px 1px 3px lightgray;
-}
-#menu-4 a:active{
-	color: white;
-	text-shadow: 0px 0px 3px black;
+#menu-4 header:hover{
+	cursor: initial;
 }
 
 /*#menu-1 header.hidden ~ ul,
