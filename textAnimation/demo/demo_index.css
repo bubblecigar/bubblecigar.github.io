@@ -1,0 +1,139 @@
+body{
+	display: flex;
+	align-items: center;
+	min-height: 650px;
+	justify-content: center;	
+
+	background-image: url("branch-color-design-1985169.jpg");
+	
+	background-size: cover;
+	background-position: 75% center;
+	/*background: radial-gradient(circle at 50% 100% ,black 5%, gray 40%,white);*/
+
+
+}
+
+/*#background{
+	width: 680px;
+	height: 800px;
+	overflow: hidden;
+	margin-left: auto;
+	margin-right: auto;
+	
+	display: flex;
+	flex-flow: row wrap;
+	align-items: flex-start;
+	justify-content: center;
+	padding-top: 240px;
+}
+#background > img{
+	position: absolute;
+	width: 680px;
+	height: auto;
+	top: 20px;
+}
+*/
+canvas{
+	/*border: 1px solid black;*/
+	box-shadow: 0 0 3px black;
+	border-radius: 3px;
+}
+
+section{
+	position: absolute;
+	width: 450px;
+	height: 220px;
+	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	text-align: center;
+	background: transparent;
+	box-shadow: 0 0 3px gray inset;
+}
+
+img{
+	height: 200px;
+	box-shadow: 0 0 3px black;
+	border-radius: 3px;
+	zoom: 0.9;
+}
+
+
+
+
+.space{
+	transform: rotate3d(0,0.5,1,69deg);
+	transform-style: preserve-3d;
+	transform-origin: 225px 110px 180px;
+}
+
+.wrapper{
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	width: 450px;
+	height: 220px;
+	transform-origin: 225px 110px 180px;
+	
+	transform: rotate3d(0,0,0,0deg);
+	transform-style: preserve-3d;
+
+	animation: rotate 10s linear;
+	animation-iteration-count: infinite;
+}
+
+#touch-zone:hover .wrapper{
+	/*animation-play-state: paused;*/
+}
+@keyframes rotate{
+	0%{
+		transform: rotate3d(1,0,0,0deg);
+	}
+	100%{
+		transform: rotate3d(1,0.6,0.6,360deg);
+	}
+}
+
+section:nth-child(1){
+	/*background: teal;*/
+
+	transform-origin: top;
+	transform: rotateX(120deg);
+}
+section:nth-child(2){
+	/*background: red;*/
+
+	transform-origin: bottom;
+	transform: rotateX(-120deg);
+}
+section:nth-child(3){
+	/*background: teal;*/
+
+	transform-origin: bottom;
+	transform: translateZ(381px) rotateX(120deg) ;
+}
+section:nth-child(4){
+	/*background: red;*/
+
+	transform-origin: top;
+	transform: translateZ(381px) rotateX(-120deg) ;
+}
+section:nth-child(5){
+	/*background: red;*/
+
+	transform: translateZ(381px);
+}
+
+*{
+	/*outline: 1px solid black*/
+	box-sizing: border-box;
+}
+
+
+
+
+
+
+

@@ -1,9 +1,27 @@
 body{
 	display: flex;
+	flex-flow: row wrap;
 	align-items: center;
 	justify-content: center;
+
+	background-image: url("branch-color-design-1985169.jpg");
+	
+	background-size: cover;
+	background-position: 75% center;
 }
 
 canvas{
-	border: 1px solid black;
+	/*border: 1px solid black;*/
+	box-shadow: 0 0 3px black;
+	border-radius: 3px;
+}
+
+section{
+	margin: 20px;
+}
+
+img{
+	height: 200px;
+	box-shadow: 0 0 3px black;
+	border-radius: 3px;
 }

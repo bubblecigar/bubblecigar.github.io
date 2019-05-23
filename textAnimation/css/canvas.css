@@ -17,10 +17,10 @@ body{
 	align-items: center;
 	padding-top: 80px;
 	padding-bottom: 50px;
-	/*background-image: url(../img/pexels-photo-1684151.jpeg);*/
-	background-image: url(../img/black-and-white-city-houses-skyline.jpg);
+	background-image: url(../img/branch-color-design-1985169.jpg);
+	/*background-image: url(../img/black-and-white-city-houses-skyline.jpg);*/
 	/*background-image: linear-gradient(black 10%, white 50%);*/
-	background-position: center 0;
+	background-position: 75% center;
 	background-repeat:  no-repeat;
 	/*background-attachment: fixed;*/
 	background-size: cover;
@@ -97,6 +97,27 @@ header::after{
 	font-weight: 900;
 	font-family: 'font awesome 5 free';
 	margin-left: 5px;
+}
+
+
+#menu-4 header::before{
+	content: '\f053';
+	font-family: 'font awesome 5 free';
+	font-weight: 900;
+}
+#menu-4 header::after{
+	content: '\f054';
+	margin-left: 0;
+}
+#menu-4 a{
+	text-decoration: none;
+	color: purple;
+}
+#menu-4 a:hover{
+	text-shadow: 1px 1px 1px gray;
+}
+#menu-4 a:active{
+	color: red;
 }
 
 /*#menu-1 header.hidden ~ ul,
@@ -266,7 +287,7 @@ li.selected{
 
 #script{
 	font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
-	background-color: rgba(255,255,255,0.5);
+	background-color: rgba(255,255,255,0.8);
     padding: 1em;
 }
 #script span{

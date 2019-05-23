@@ -846,9 +846,9 @@ if (document.querySelector('#panel')) {
 
 			canvas_opacity: 0.85,
 
-			menu1: true,
-			menu2: true,
-			menu3: true
+			menu1: false,
+			menu2: false,
+			menu3: false
 		},
 		methods:{
 			setDraw: function(arg){
