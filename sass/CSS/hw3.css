@@ -1,0 +1,63 @@
+.header {
+  background-size: cover;
+  background-position: center center;
+  background-image: url("../asset/img/header_desktop.png");
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 568px) {
+  .header {
+    background-image: url("../asset/img/mobile_desktop.png");
+  }
+}
+
+.header .banner {
+  min-height: 420px;
+}
+
+.header .meuni ul a {
+  display: block;
+}
+
+.header .meuni ul a:hover {
+  font-weight: bolder;
+}
+
+.header .hamburger-menu {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .header .hamburger-menu {
+    display: block;
+    float: right;
+  }
+}
+
+.content {
+  background: black;
+}
+
+@media (max-width: 960px) {
+  .content {
+    float: left;
+    width: 48%;
+  }
+}
+
+.content li {
+  color: black;
+}
+
+@media (max-width: 768px) {
+  .content li {
+    color: #ff0000;
+  }
+}
+
+@media (max-width: 568px) {
+  .content li {
+    display: none;
+  }
+}
+/*# sourceMappingURL=hw3.css.map */

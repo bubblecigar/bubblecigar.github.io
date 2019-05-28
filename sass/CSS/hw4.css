@@ -1,0 +1,133 @@
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+header, footer, nav {
+  padding: 20px;
+  text-align: center;
+}
+
+header {
+  background: cornflowerblue;
+}
+
+nav {
+  background: lightskyblue;
+  margin-bottom: 20px;
+}
+
+main {
+  max-width: 80%;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  margin-bottom: 20px;
+}
+
+footer {
+  margin-top: auto;
+  background: cornflowerblue;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+p {
+  font-size: 16px;
+  text-indent: 1em;
+}
+
+.layout-flex-col {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.layout-flex-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row;
+          flex-flow: row;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.clearfloat::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.btn {
+  text-decoration: none;
+  color: black;
+}
+
+.btn:hover {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.go-top-btn {
+  position: fixed;
+  bottom: 15%;
+  right: 10%;
+  height: 3em;
+  line-height: 3em;
+  width: 3em;
+  text-align: center;
+  border-radius: 3em;
+  background: lightskyblue;
+}
+
+.nav-btn:hover {
+  color: cornflowerblue;
+}
+
+.briefIntro {
+  margin-bottom: 20px;
+}
+
+.briefIntro h2 {
+  margin-bottom: 10px;
+}
+
+.briefIntro img {
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.ad img {
+  margin: 5px;
+}
+
+@media (max-width: 640px) {
+  .ad {
+    display: none;
+  }
+}
+/*# sourceMappingURL=hw4.css.map */

@@ -1,0 +1,45 @@
+body {
+  font-size: 16px;
+  color: #000;
+}
+
+.header {
+  background-image: url("../header_desktop.png");
+}
+
+.header .menu {
+  top: 0;
+}
+
+.header .menu .btn {
+  color: #0000FF;
+}
+
+.header .banner-title {
+  max-width: 460px;
+  background: #ff0000;
+  color: #fff;
+  font-size: 24px;
+}
+
+.header .main-menu {
+  background: #ff0000;
+  overflow: hidden;
+}
+
+.header .main-menu a:hover {
+  background: #ff0000;
+}
+
+.header .content h2 {
+  font-size: 24px;
+}
+
+.header .footer h3 {
+  font-size: 24px;
+}
+
+.header .footer p {
+  color: #0000FF;
+}
+/*# sourceMappingURL=hw2.css.map */

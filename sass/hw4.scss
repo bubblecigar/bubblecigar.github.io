@@ -1,0 +1,124 @@
+//font-size
+$fs-s:16px;
+$fs-m:20px;
+$fs-l:24px;
+//gap (used for padding/margin)
+$g-s: 5px;
+$g-m: 10px;
+$g-l: 20px;
+//color
+$c-1st: lightskyblue;
+$c-2nd: cornflowerblue;
+
+//media query
+@mixin screen-640 {
+    @media (max-width:640px){
+        @content;
+    }
+}
+
+//base rules
+*{
+    box-sizing: border-box;
+}
+body{
+    background: rgba(0,0,0,0.03);
+}
+header, footer, nav{
+    padding: $g-l;
+    text-align: center;
+}
+header{
+    background: $c-2nd;
+}
+nav{
+    background: $c-1st;
+    margin-bottom: $g-l;
+}
+main{
+    max-width: 80%;
+    align-self: center;
+    margin-bottom: $g-l;
+}
+footer{
+    margin-top: auto;
+    background: $c-2nd;
+}
+h1{
+    font-size: $fs-l;
+    font-weight: bold;
+}
+h2{
+    font-size: $fs-m;
+    font-weight: bold;
+}
+p{
+    font-size: $fs-s;
+    text-indent: 1em;
+}
+
+// layout rules
+.layout-flex-col{
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+}
+.layout-flex-row{
+    display: flex;
+    flex-flow: row;
+    justify-content: space-evenly;
+}
+.clearfloat::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+// module rules
+.btn{
+    text-decoration: none;
+    color: black;
+    &:hover{
+        font-weight: bold;
+        cursor: pointer;
+    }
+}
+
+.go-top-btn{
+    position: fixed;
+    bottom: 15%;
+    right: 10%;
+    height: 3em;
+    line-height: 3em;
+    width: 3em;
+    text-align: center;
+    border-radius: 3em;
+    background: $c-1st;
+}
+
+.nav-btn{
+    &:hover{
+        color: $c-2nd;
+    }
+}
+
+.briefIntro{
+    margin-bottom: $g-l;
+    h2{
+        margin-bottom: $g-m;
+    }
+    img{
+        float: left;
+        margin-right: $g-m;
+        margin-bottom: $g-m;
+    }
+}
+
+.ad{
+    img{
+        margin: $g-s;
+    }
+    @include screen-640(){
+        display: none;
+    }    
+}
