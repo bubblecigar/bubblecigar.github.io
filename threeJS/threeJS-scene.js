@@ -200,7 +200,7 @@ function main(){
         };
     }
 
-    render();
+    //render();
     function render(t){
         t *= 0.001;
         
