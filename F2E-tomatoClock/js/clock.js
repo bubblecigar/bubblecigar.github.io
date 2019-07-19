@@ -214,8 +214,8 @@ function main(){
         // material - texture
         const loader = new THREE.TextureLoader();
         // const url = '../img/checker.png';
-        const url = '../img/cloudiness-clouds-cloudscape-414659.jpg';
-        // const url = '../img/background-close-up-construction-214045.jpg';
+        // const url = '../img/cloudiness-clouds-cloudscape-414659.jpg';
+        const url = 'img/cloudiness-clouds-cloudscape-414659.jpg';
         const texture = loader.load(url);
         const material = new THREE.MeshPhongMaterial({
             map: texture,
