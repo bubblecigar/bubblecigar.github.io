@@ -16,7 +16,7 @@
 }
 
 body{
-    padding: 10px;
+    height: 100%;
 }
 ul{
     display: flex;
@@ -25,10 +25,10 @@ ul{
     align-items: flex-start;
     margin-bottom: var(--gap1);
     overflow: hidden;
-    transition: 1s opacity ease-in;
+    transition: .5s opacity ease-in;
     opacity: 1;
 }
-ul.hide{
+.hide{
     opacity: 0;
     height: 0;
 }
@@ -50,7 +50,7 @@ input{
     font-family: var(--font1);
     font-size: var(--fontSize1);
 }
-button:hover, .folder-open:hover, .folder-close:hover{
+button:hover, .folder-open:hover, .folder-close:hover, .toggle-focusTime:hover{
     cursor: pointer;
 }
 button{
@@ -61,6 +61,7 @@ button{
     outline: none;
     border: none;
     position: relative;
+    background: transparent;
 }
 button::before, i::before{
     font-family: 'font awesome 5 free';
@@ -78,25 +79,59 @@ button::before, i::before{
     font-size: var(--fontSize0);
 }
 
+.toggle-focusTime::before{
+    content: '\f140';
+    color: white;
+    font-size: var(--fontSize1);
+}
+
 .flex-row{
     display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.flex-col{
+    display: flex;
+    flex-flow: column nowrap;
     justify-content: space-between;
     align-items: center;
 }
 
-.list-panel{
-    display: inline-block;
+.panel-wrapper{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    transition: transform 1s;
+    max-width: 720px;
+    margin-left: auto;
 }
-.list-panel h2{
-    background: black;
+.panel-wrapper.scroll-up{
+    transform: translateY(-100%);
+}
+.list-panel, .analyze-panel{
+    background: rgba(1,1,1,.1);
+    padding: var(--gap1);
+    display: inline-block;
+    border-radius: 5px;
+    width: 330px;
+    margin-top: var(--gap1);
+}
+.list-panel h2, .analyze-panel h2{
+    background: rgb(44, 40, 40);
     color: white;
     padding: var(--size0) var(--size1);
     font-family: var(--font1);
     font-size: var(--fontSize2);
+    border-radius: 3px;
 }
 .list-panel .newMission{
     padding: var(--size0);
     width: 100%;
+}
+.newMission::placeholder{
+    color: white;
 }
 h2 i{
     float: right;
@@ -116,12 +151,12 @@ h2 i{
 }
 [data-state='isDone']~input{
     text-decoration: line-through;
-    color: gray;
 }
 
 
 .btn-add{
     border-radius: 0;
+    margin: auto;
 }
 .btn-add::before{
     content: '\f067';
@@ -134,11 +169,15 @@ h2 i{
 .btn-run{
     border: none;
 }
+.btn-run:hover{
+    color:darkred;
+}
 .btn-run::before{
-    content: '\f04b';
+    content: '\f2f9';
     position: absolute;
     top:3px;
-    left:5px;
+    right:6px;
+    font-size: var(--fontSize0);
 }
 #js-Done button:hover{
     cursor: default;
@@ -146,15 +185,13 @@ h2 i{
 #js-Done .btn-run, #js-Done .btn-delete{
     display: none;
 }
-#js-Done input{
-    z-index: -1;
-}
 
 .btn-delete{
+    display: none;
     border: none;
 }
 .btn-delete:hover{
-    color: crimson;
+    color: darkred;
 }
 .btn-delete::before{
     content: '\f00d';
@@ -164,7 +201,7 @@ h2 i{
 }
 
 #js-todo .tomato{
-    display: none;
+    /* display: none; */
 }
 .tomato{
     position: absolute;
@@ -172,11 +209,10 @@ h2 i{
     right: var(--gap1);
     bottom: 15px;
 }
-.tomato::before{
+#js-done .tomato::before{
     content: '\f253';
     font-family: 'font awesome 5 free';
     font-weight: 900;
-    font-size: var(--size0);
     vertical-align: middle;
     font-size: var(--fontSize0);
 }
@@ -185,4 +221,30 @@ h2 i{
     content: "";
     clear: both;
     display: table;
+}
+
+#js-focusTime h3{
+    font-family: var(--font1);
+    font-size: var(--fontSize2);
+    padding-left: var(--gap0);
+    min-width: 130px;
+}
+#js-focusTime i{
+    align-self: flex-end;
+    font-family: var(--font1);
+    font-size: var(--fontSize2);
+    padding-right: var(--gap0);
+}
+#js-focusTime i::before{
+    font-size: var(--fontSize2);
+}
+
+#js-chart{
+    margin-top: var(--gap1);
+    border-bottom: 1px solid black;
+}
+
+#js-clock{
+    width: 100%;
+    height: 100%;
 }

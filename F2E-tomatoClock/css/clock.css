@@ -1,0 +1,75 @@
+html, body{
+    height: 100%;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+#panel-time{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+
+    font-family: 'Bahiana', cursive;
+    font-size: 150px;
+    color: white;
+    text-shadow: 5px 5px rgb(66, 58, 58);
+
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(1,1,1,.1);
+    padding: var(--gap1);
+    display: inline-block;
+    border-radius: 10px;
+    width: 330px;
+    margin: var(--gap1);
+
+    transition: transform 1s;
+}
+
+#panel-time.scroll-down{
+    transform: translateY(120%);
+}
+
+#time{
+    display: block;
+    text-align: center;
+}
+
+#panel-time button{
+    width: 100%;
+    font-family: 'Bahiana', cursive;
+    font-size: 50px;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    padding-left: 20px;
+    text-align: left;
+}
+#panel-time button i::before{
+    font-size: 20px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+#panel-time button:hover{
+    background: rgba(255,255,255,.3);
+    border-radius: 5px;
+}
+
+canvas#js-clock{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: -1;
+    left: 0;
+    top: 0;
+}
+
+.none{
+    display: none !important;
+}

@@ -6,28 +6,70 @@
     <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
     <link rel="stylesheet" href="css/tomatoClock.css">
     <title>tomatoClock</title>
+    <link rel="stylesheet" href="css/clock.css">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Bahiana&display=swap" rel="stylesheet">
 </head>
 <body>
     
-    
-    <div class='list-panel'>
-        <div class="flex-row">
-            <input id="js-newMission" class='newMission' type="text" placeholder="Add new mission...">
-            <button id="js-add" class="btn-add clearFix"></button>
+    <div class="panel-wrapper">
+        <div class='list-panel flex-col'>
+            <div class="flex-row">
+                <input id="js-newMission" class='newMission' type="text" placeholder="Add new mission...">
+                <button id="js-add" class="btn-add clearFix"></button>
+            </div>
+            <h2 class="flex-row">Todo<i id="js-toggleTodo" class="clearFix folder-open"></i></h2>
+            <ul id="js-todo"></ul>
+            <h2 class="flex-row">Done<i id="js-toggleDone" class="clearFix folder-open"></i></h2>
+            <ul id="js-done"></ul>
         </div>
-        <h2 class="flex-row">Todo<i id="js-toggleTodo" class="clearFix folder-open"></i></h2>
-        <ul id="js-todo"></ul>
-        <h2 class="flex-row">Done<i id="js-toggleDone" class="clearFix folder-open"></i></h2>
-        <ul id="js-done"></ul>
+    
+        <div class='analyze-panel  flex-col'>
+            <h2 class="flex-row">Focus time<i class="toggle-focusTime"></i></h2>
+            <ul id="js-focusTime">
+                <div class="analyse-tomato flex-row">
+                    <li class="flex-col">
+                        <h3>today</h3>
+                        <i id="today-tomato" class="fas fa-hourglass-end"> &times; ?</i>
+                    </li>
+                    <li class="flex-col">
+                        <h3>week</h3>
+                        <i id="week-tomato" class="fas fa-hourglass-end"> &times; ?</i>
+                    </li>
+                </div>
+                <div class="analyse-mission flex-row hide">
+                    <li class="flex-col">
+                        <h3>today</h3>
+                        <i id="today-mission" class="fas fa-tasks"> &times; ?</i>
+                    </li>
+                    <li class="flex-col">
+                        <h3>week</h3>
+                        <i id="week-mission" class="fas fa-tasks"> &times; ?</i>
+                    </li>
+                </div>
+            </ul>
+            <h2>Chart</h2>
+            <ul>
+                <canvas id="js-chart" height="200">canvas</canvas>
+            </ul>
+        </div>
     </div>
+    
 
-    <div class="analytic">
-        
+    <canvas id="js-clock">
+        clock
+    </canvas>
+
+    <div id="panel-time" class="scroll-down">
+        <i id="time">25:00</i>
+        <button id="time-start"><i class="fas fa-play"></i>start</button>
+        <button id="time-discard" class="none"><i class="fas fa-trash"></i>discard</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/store-js@2.0.4/dist/store.legacy.min.js"></script>
+    <script src="js/three.js-master//build/three.min.js"></script>
+    <script src="js/three.js-master/examples/js/controls/OrbitControls.js"></script>
+    <script src="js/clock.js"></script>
     <script src="js/tomatoClock.js"></script>
 </body>
 </html>
