@@ -70,7 +70,7 @@ function main(){
     // scene
     const scene = new THREE.Scene();
     const backgroundColor = new THREE.Color();
-    const backgroundIntensity = .9;
+    const backgroundIntensity = .85;
     backgroundColor.setRGB(backgroundIntensity,backgroundIntensity,backgroundIntensity);
     scene.background = new THREE.Color(backgroundColor);
 
