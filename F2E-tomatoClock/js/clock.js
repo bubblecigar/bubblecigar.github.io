@@ -70,7 +70,7 @@ function main(){
     // scene
     const scene = new THREE.Scene();
     const backgroundColor = new THREE.Color();
-    const backgroundIntensity = .6;
+    const backgroundIntensity = .9;
     backgroundColor.setRGB(backgroundIntensity,backgroundIntensity,backgroundIntensity);
     scene.background = new THREE.Color(backgroundColor);
 
@@ -339,7 +339,7 @@ function main(){
         }        
 
         // check if time's up
-        if(second >= 10){
+        if(minute >= 25){
             clock.discard();
             timeStart.classList.toggle('none');
             timeDiscard.classList.toggle('none');
