@@ -1,5 +1,7 @@
 'use strict'
 
+const audio = document.querySelector('audio');
+audio.loop = true;
 
 const clock = {
     stamps: [Date.now(),Date.now()],
@@ -34,12 +36,17 @@ const clock = {
         this.state.exit = false;
         this.state.on = true;
         this.resetStamps();
+
+        audio.currentTime = 0;
+        audio.play();
     },
     discard: function(){
         this.state.entry = false;
         this.state.on = false;
         this.state.exit = true;
         this.resetStamps();
+
+        audio.pause();
     }
 }
 
