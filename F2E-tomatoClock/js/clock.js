@@ -38,6 +38,7 @@ const clock = {
         this.resetStamps();
 
         audio.currentTime = 0;
+        audio.loop = true;
         audio.play();
     },
     discard: function(){
@@ -46,7 +47,7 @@ const clock = {
         this.state.exit = true;
         this.resetStamps();
 
-        audio.pause();
+        audio.loop = false;
     }
 }
 
