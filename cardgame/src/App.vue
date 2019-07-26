@@ -68,7 +68,7 @@ export default {
   },
   computed: {
     gameState() {
-      return this.finishedCards >= 1 ? "Win" : "Playing";
+      return this.finishedCards >= 52 ? "Win" : "Playing";
     },
     finishedCards() {
       let finishedCards = 0;
