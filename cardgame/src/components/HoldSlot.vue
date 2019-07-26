@@ -45,7 +45,7 @@ export default {
   top: 0;
   left: 0;
   /* transform: translate3d(-50px, -75px, 0); */
-  z-index: 3;
+  z-index: 50;
   pointer-events: none;
   background-color: rgba(0, 0, 0, 0.1);
 }

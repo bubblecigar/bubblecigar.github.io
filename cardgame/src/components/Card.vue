@@ -104,9 +104,7 @@ export default {
   position: absolute;
   transform-style: preserve-3d;
   box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.5);
-  z-index: 2;
   transition: transform 0.6s;
-  /* overflow: hidden; */
 }
 .card-hover:hover {
   cursor: pointer;

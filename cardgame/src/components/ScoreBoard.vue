@@ -44,7 +44,7 @@ export default {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
-  z-index: 5;
+  z-index: 99;
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -58,7 +58,6 @@ export default {
   height: 80%;
   min-width: 760px;
   min-height: 400px;
-  z-index: 5;
   display: flex;
   flex-flow: column;
   justify-content: center;

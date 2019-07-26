@@ -21,7 +21,7 @@
           v-for="(card,ci) in slot"
           :card="card"
           :indexs="{gi:gi,si:si,ci:ci}"
-          :style="{'top':top(ci,gi),'opacity':isHide(gi,si,ci)}"
+          :style="{'top':top(ci,gi),'opacity':isHide(gi,si,ci),'z-index':zIndex(ci)}"
           @cardPicked="cardPicked"
         />
       </CardSlot>
@@ -86,6 +86,9 @@ export default {
     }
   },
   methods: {
+    zIndex(ci) {
+      return ci + 2;
+    },
     updateTime(finishingTime) {
       this.finishingTime.minute = finishingTime.minute;
       this.finishingTime.second = finishingTime.second;
@@ -140,7 +143,7 @@ export default {
           break;
       }
     },
-    createDeck(side = "down") {
+    createDeck(side = "up") {
       const orderDeck = [];
       for (let i = 0; i < 52; i++) {
         let card = {};
@@ -355,6 +358,7 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: rgb(99, 146, 99);
+  overflow: hidden;
 }
 .unselectable {
   -webkit-touch-callout: none;
