@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath: '/cardgame/dist/'
+  publicPath: '/F2E-freecell/'
 }
