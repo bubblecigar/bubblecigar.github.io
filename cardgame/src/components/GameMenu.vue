@@ -7,7 +7,7 @@
       <div class="logo">
         --FreeCell solitaire--
         <br />
-        <sub>welcome! choose a difficulty to start:</sub>
+        <sub>welcome! select difficulty:</sub>
       </div>
       <div class="options">
         <div class="option level1">
@@ -16,7 +16,7 @@
               <i class="fas fa-baby-carriage"></i>
               Easy
             </h1>
-            <span>Suceeding card have:</span>
+            <span>Succeeding card must have:</span>
             <span>- different color</span>
             <span>
               -
@@ -30,7 +30,7 @@
             <h1>
               <i class="fas fa-bicycle"></i> Standard
             </h1>
-            <span>Suceeding card have:</span>
+            <span>Succeeding card must have:</span>
             <span>- different color</span>
             <span>
               -
