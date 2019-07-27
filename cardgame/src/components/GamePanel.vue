@@ -5,6 +5,7 @@
       FreeCell&nbsp;
       <i class="fas fa-chess-board slant"></i>
     </h1>
+    <p>level {{level}}</p>
     <p>
       <i class="fas fa-layer-group"></i>
       {{gameInfo.finishedCards}}
@@ -13,6 +14,7 @@
       <i class="fas fa-shoe-prints"></i>
       {{gameInfo.steps}}
     </p>
+
     <slot></slot>
   </div>
 </template>
@@ -22,6 +24,10 @@ export default {
   props: {
     gameInfo: {
       type: Object
+    },
+    level: {
+      type: Number,
+      required: true
     }
   }
 };
@@ -40,7 +46,7 @@ export default {
   font-size: 20px;
 }
 h1 {
-  margin-right: 50px;
+  margin-right: 40px;
   font-size: 40px;
   align-self: flex-start;
 }

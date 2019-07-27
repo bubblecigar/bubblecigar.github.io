@@ -1,5 +1,5 @@
 <template>
-  <div class="card-wrapper card-hover" :class="[card.side]" @mousedown="cardPicked">
+  <div class="card-wrapper" :class="[card.side]" @mousedown="cardPicked">
     <div class="card-front card unselectable" :class="[card.color]">
       <span class="banner-top banner">
         <i :class="card.suit" v-html="suit_Icon(card.suit)"></i>
@@ -104,7 +104,7 @@ export default {
   position: absolute;
   transform-style: preserve-3d;
   box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.5);
-  transition: transform 0.6s;
+  transition: transform 0.6s, top 2s;
 }
 .card-hover:hover {
   cursor: pointer;
@@ -121,7 +121,6 @@ export default {
   border-radius: 15px;
   font-size: 20px;
 }
-
 .card-wrapper.down {
   transform: rotateY(180deg);
 }

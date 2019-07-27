@@ -10,11 +10,16 @@ export default {
     eventName: {
       type: String,
       required: true
+    },
+    eventParams: {
+      type: Number,
+      required: false,
+      default: 0
     }
   },
   methods: {
     emitEvent() {
-      this.$emit(this.eventName);
+      this.$emit(this.eventName, this.eventParams);
     }
   }
 };
@@ -43,8 +48,13 @@ export default {
   cursor: pointer;
   color: azure;
 }
+.[disabled]:active {
+  cursor: initial;
+  color: initial;
+}
 [disabled]:hover {
   cursor: initial;
   transform: none;
+  text-decoration: none;
 }
 </style>

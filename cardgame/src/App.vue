@@ -1,18 +1,33 @@
 <template>
   <div id="app" @mousemove="updateMousePosition" @mouseup="captureCards" class="background-pattern">
-    <ScoreBoard :gameInfo="gameInfo" :finishingTime="finishingTime">
-      <Button eventName="startNewGame" @startNewGame="startNewGame">new game</Button>
+    <GameMenu :gameInfo="gameInfo">
+      <Button
+        eventName="startNewGame"
+        :eventParams="1"
+        @startNewGame="startNewGame"
+        slot="level1"
+      >level 1</Button>
+      <Button
+        eventName="startNewGame"
+        :eventParams="2"
+        @startNewGame="startNewGame"
+        slot="level2"
+      >level 2</Button>
+    </GameMenu>
+
+    <ScoreBoard :gameInfo="gameInfo" :time="stampToTime" :level="level">
+      <Button eventName="giveUp" @giveUp="giveUp">another round</Button>
     </ScoreBoard>
 
-    <GamePanel :gameInfo="gameInfo">
-      <Clock :gameState="gameState" :startingStamp="startingStamp" @timeUp="updateTime"></Clock>
+    <GamePanel :gameInfo="gameInfo" :level="level">
+      <Clock :time="stampToTime"></Clock>
       <Button
         eventName="backward"
         @backward="backward"
         :disabled="!historyStack.length"
         style="margin-left:auto"
       >backward</Button>
-      <Button eventName="startNewGame" @startNewGame="startNewGame">new game</Button>
+      <Button eventName="giveUp" @giveUp="giveUp">give up</Button>
     </GamePanel>
 
     <SlotGroup v-for="(group,gi) in groups" :class="[setClassByGI(gi)]">
@@ -22,10 +37,12 @@
           :card="card"
           :indexs="{gi:gi,si:si,ci:ci}"
           :style="{'top':top(ci,gi),'opacity':isHide(gi,si,ci),'z-index':zIndex(ci)}"
+          :class="{'card-hover':holdingSlot.cards.length===0}"
           @cardPicked="cardPicked"
         />
       </CardSlot>
     </SlotGroup>
+
     <HoldSlot :mousePosition="mousePosition" :layerCoord="holdingSlot.layerCoord">
       <Card v-for="(card,ci) in holdingSlot.cards" :card="card" :style="{'top':top(ci)}" />
     </HoldSlot>
@@ -38,7 +55,12 @@ export default {
   components: {},
   data() {
     return {
-      groups: this.createDeck(),
+      groups: [
+        [[], [], [], []],
+        [[], [], [], []],
+        [[], [], [], [], [], [], [], []]
+      ],
+      level: 1 || 2,
       mousePosition: {
         clientX: 0,
         clientY: 0,
@@ -59,7 +81,9 @@ export default {
       },
       historyStack: [],
       steps: 0,
-      startingStamp: Date.now(),
+      currentStamp: this.updateStamp(),
+      startingStamp: 0,
+      displayedStamp: 0,
       finishingTime: {
         minute: "00",
         second: "00"
@@ -67,8 +91,36 @@ export default {
     };
   },
   computed: {
+    stampToTime() {
+      let second = Math.floor(
+        (this.displayedStamp - this.startingStamp) / 1000
+      );
+      let minute = Math.floor(second / 60);
+      second -= minute * 60;
+      second = "00" + second.toString();
+      second = second[second.length - 2] + second[second.length - 1];
+      minute = "00" + minute.toString();
+      minute = minute[minute.length - 2] + minute[minute.length - 1];
+      return {
+        second,
+        minute
+      };
+    },
+    cardsAmount() {
+      let c = 0;
+      this.groups.forEach(group => {
+        group.forEach(slot => {
+          c += slot.length;
+        });
+      });
+      return c;
+    },
     gameState() {
-      return this.finishedCards >= 52 ? "Win" : "Playing";
+      if (this.cardsAmount === 0) {
+        return "Waiting";
+      } else {
+        return this.finishedCards >= 52 ? "Win" : "Playing";
+      }
     },
     finishedCards() {
       let finishedCards = 0;
@@ -86,6 +138,25 @@ export default {
     }
   },
   methods: {
+    updateStamp() {
+      this.currentStamp = Date.now();
+
+      if (this.gameState === "Playing") {
+        this.displayedStamp = this.currentStamp;
+      } else if (this.gameState === "Win") {
+        // do nothing, hold the stamps
+      } else if (this.gameState === "Waiting") {
+        this.displayedStamp = this.currentStamp;
+        this.startingStamp = this.currentStamp;
+      }
+
+      window.requestAnimationFrame(() => {
+        this.updateStamp();
+      });
+    },
+    giveUp() {
+      this.clearDeck();
+    },
     zIndex(ci) {
       return ci + 2;
     },
@@ -96,12 +167,12 @@ export default {
     isHide(gi, si, ci) {
       const i = this.holdingSlot.indexs;
       if (i.gi === gi && i.si === si && i.ci <= ci) {
-        return 0.5;
+        return 0.7;
       } else {
         return 1;
       }
     },
-    startNewGame() {
+    startNewGame(level = 2) {
       this.clearDeck();
       this.groups = this.createDeck();
       this.steps = 0;
@@ -109,6 +180,7 @@ export default {
       this.startingStamp = Date.now();
       this.finishingTime.minute = "00";
       this.finishingTime.second = "00";
+      this.level = level;
     },
     setClassByGI(gi) {
       switch (gi) {
@@ -232,7 +304,7 @@ export default {
         else {
           let b = [...slot];
           b = b.splice(indexs.ci);
-          if (this.isInOrder(b)) {
+          if (this.isInOrder(b, this.level)) {
             this.holdingSlot.cards.push(...b);
             this.holdingSlot.indexs.gi = indexs.gi;
             this.holdingSlot.indexs.si = indexs.si;
@@ -280,7 +352,7 @@ export default {
               this.movePile(ii, slot);
             } else if (lastCard.side === "up") {
               const b = [lastCard, ...this.holdingSlot.cards];
-              if (this.isInOrder(b)) {
+              if (this.isInOrder(b, this.level)) {
                 this.movePile(ii, slot);
               }
             }
@@ -327,16 +399,28 @@ export default {
       this.holdingSlot.indexs.si = -1;
       this.holdingSlot.indexs.ci = -1;
     },
-    isInOrder(cards) {
-      for (let i = 1; i < cards.length; i++) {
-        if (cards[i - 1].point < cards[i].point) {
-          return false;
+    isInOrder(cards, level = 1) {
+      if (level === 1) {
+        for (let i = 1; i < cards.length; i++) {
+          if (cards[i - 1].point < cards[i].point) {
+            return false;
+          }
+          if (cards[i - 1].color === cards[i].color) {
+            return false;
+          }
         }
-        if (cards[i - 1].color === cards[i].color) {
-          return false;
+        return true;
+      } else if (level === 2) {
+        for (let i = 1; i < cards.length; i++) {
+          if (cards[i - 1].point !== cards[i].point + 1) {
+            return false;
+          }
+          if (cards[i - 1].color === cards[i].color) {
+            return false;
+          }
         }
+        return true;
       }
-      return true;
     }
   }
 };

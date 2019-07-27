@@ -1,32 +1,45 @@
 <template>
   <div
-    class="wrapper"
-    :class="{hide:gameInfo.gameState==='Playing' || gameInfo.gameState==='Waiting'}"
+    class="wrapper customized-font"
+    :class="{hide:gameInfo.gameState==='Playing' || gameInfo.gameState==='Win'}"
   >
-    <div class="score-board background-pattern customized-font">
-      <p>Congratulations !</p>
-      <p>
-        You have finished FreeCell
-        level
-        <strong>{{level}}</strong>
-      </p>
-      <p>
-        in
-        <strong>{{ Number(time.minute)}}</strong> minute(s) and
-        <strong>{{ Number(time.second)}}</strong> seconds
-      </p>
-      <p>
-        by
-        <strong>{{gameInfo.steps}}</strong> steps
-      </p>
-      <p>
-        good job !
-        <i class="fas fa-laugh-wink rotate"></i>
-      </p>
-      <p class="delay">
-        >>>
-        <slot></slot><<<
-      </p>
+    <div class="game-menu background-pattern">
+      <div class="logo">
+        --FreeCell solitaire--
+        <br />
+        <sub>welcome! choose a difficulty to start:</sub>
+      </div>
+      <div class="options">
+        <div class="option level1">
+          <div class="explain">
+            <h1>
+              <i class="fas fa-baby-carriage"></i>
+              Easy
+            </h1>
+            <span>Suceeding card have:</span>
+            <span>- different color</span>
+            <span>
+              -
+              <strong>equal or less</strong> points
+            </span>
+          </div>>>>
+          <slot name="level1"></slot><<<
+        </div>
+        <div class="option level2">
+          <div class="explain">
+            <h1>
+              <i class="fas fa-bicycle"></i> Standard
+            </h1>
+            <span>Suceeding card have:</span>
+            <span>- different color</span>
+            <span>
+              -
+              <strong>-1</strong> point
+            </span>
+          </div>>>>
+          <slot name="level2"></slot><<<
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -35,86 +48,73 @@
 export default {
   props: {
     gameInfo: {
-      type: Object,
-      required: true
-    },
-    time: {
-      type: Object,
-      required: true
-    },
-    level: {
-      type: Number,
-      required: true
+      type: Object
     }
   }
 };
 </script>
 
-<style scoped>
+<style  scoped>
 .wrapper {
   position: fixed;
-  top: 0;
   left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 99;
+  z-index: 100;
   display: flex;
-  flex-flow: column;
   justify-content: center;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: color 2s;
 }
-.wrapper.hide {
-  z-index: -1;
+.logo {
+  font-size: 50px;
 }
-.score-board {
+.game-menu {
   width: 80%;
   height: 80%;
   min-width: 760px;
   min-height: 400px;
+  border-radius: 30px;
   display: flex;
   flex-flow: column;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  border-radius: 30px;
-  transition: 1.5s transform;
-  transform: translateY(0);
 }
-.hide .score-board {
-  transform: translateY(-200%);
+.options {
+  display: flex;
+  flex-flow: row;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+  line-height: 1.5em;
+}
+.hide {
+  z-index: -1;
   color: transparent;
 }
-.customized-font {
-  font-family: "Kaushan Script", cursive;
-  font-weight: bold;
-  font-size: 20px;
-}
-.hide .delay {
-  opacity: 0;
-  transform: translateY(30%);
-}
-.delay {
-  opacity: 1;
-  transition: opacity 1s 2s, transform 1s 2s;
-  transform: translateY(0%);
-}
-.hide p,
-.hide strong {
-  color: transparent;
-}
-p {
-  margin: 10px;
-  color: black;
-  transition: color 3s 1s;
+h1 {
+  font-size: 1.5em;
+  margin-bottom: 1em;
 }
 strong {
   color: rgb(165, 1, 165);
   transition: color 3s 1s;
 }
-.rotate {
-  transform: rotate(30deg);
-  font-size: 40px;
-  margin: 10px;
+sub {
+  font-size: 20px;
+}
+.explain {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+  margin-bottom: 1em;
+}
+.customized-font {
+  font-family: "Kaushan Script", cursive;
+  font-weight: bold;
+  font-size: 20px;
 }
 .background-pattern {
   background-color: #ffaa00;

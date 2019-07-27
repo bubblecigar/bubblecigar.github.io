@@ -10,6 +10,7 @@ import GamePanel from './components/GamePanel.vue';
 import Clock from './components/Clock.vue';
 import Button from './components/Button.vue';
 import ScoreBoard from './components/ScoreBoard.vue';
+import GameMenu from './components/GameMenu.vue';
 
 Vue.component('CardSlot', CardSlot)
 Vue.component('SlotGroup', SlotGroup)
@@ -19,6 +20,7 @@ Vue.component('GamePanel', GamePanel)
 Vue.component('Clock', Clock)
 Vue.component('Button', Button)
 Vue.component('ScoreBoard', ScoreBoard)
+Vue.component('GameMenu', GameMenu)
 
 Vue.config.productionTip = false
 

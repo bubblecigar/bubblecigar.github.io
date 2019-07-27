@@ -20,9 +20,6 @@ export default {};
 .foundation-group {
   /* background-color: aquamarine; */
 }
-.foundation-group > .card-wrapper {
-  top: 0;
-}
 .cell-group {
   /* background-color: saddlebrown; */
 }
