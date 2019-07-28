@@ -44,6 +44,7 @@ export default {
   font-family: "Kaushan Script", cursive;
   font-weight: bold;
   font-size: 20px;
+  color: rgba(255, 247, 176, 0.37);
 }
 h1 {
   margin-right: 40px;

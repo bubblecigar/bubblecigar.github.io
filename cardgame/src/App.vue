@@ -53,6 +53,8 @@
         class="slinging"
       />
     </HoldSlot>
+
+    <AuthorInfo />
   </div>
 </template>
 

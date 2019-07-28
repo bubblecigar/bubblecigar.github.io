@@ -81,6 +81,10 @@ export default {
   flex-flow: column;
   justify-content: space-evenly;
   align-items: center;
+  color: black;
+}
+.game-menu .customized-button {
+  color: initial;
 }
 .options {
   display: flex;

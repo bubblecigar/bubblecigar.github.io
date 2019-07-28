@@ -11,6 +11,7 @@ import Clock from './components/Clock.vue';
 import Button from './components/Button.vue';
 import ScoreBoard from './components/ScoreBoard.vue';
 import GameMenu from './components/GameMenu.vue';
+import AuthorInfo from './components/AuthorInfo.vue';
 
 Vue.component('CardSlot', CardSlot)
 Vue.component('SlotGroup', SlotGroup)
@@ -21,6 +22,8 @@ Vue.component('Clock', Clock)
 Vue.component('Button', Button)
 Vue.component('ScoreBoard', ScoreBoard)
 Vue.component('GameMenu', GameMenu)
+Vue.component('AuthorInfo', AuthorInfo)
+
 
 Vue.config.productionTip = false
 

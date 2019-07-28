@@ -49,7 +49,4 @@ export default {
   pointer-events: none;
   background-color: rgba(0, 0, 0, 0.1);
 }
-.hold-slot:hover {
-  cursor: pointer;
-}
 </style>

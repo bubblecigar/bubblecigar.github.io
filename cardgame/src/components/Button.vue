@@ -38,6 +38,7 @@ export default {
   border-radius: 10px;
   padding: 5px 15px;
   transition: transform 0.3s;
+  color: rgba(255, 247, 176, 0.54);
 }
 .customized-button:hover {
   cursor: pointer;
@@ -46,11 +47,13 @@ export default {
 }
 .customized-button:active {
   cursor: pointer;
-  color: azure;
+  color: rgba(0, 0, 0, 0.2);
 }
-.[disabled]:active {
+[disabled] {
+  color: rgba(0, 0, 0, 0.2);
+}
+[disabled]:active {
   cursor: initial;
-  color: initial;
 }
 [disabled]:hover {
   cursor: initial;
