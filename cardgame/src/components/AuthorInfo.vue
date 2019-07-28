@@ -32,11 +32,8 @@ export default {};
   font-size: 20px;
   color: rgba(255, 247, 176, 0.37);
   line-height: 2em;
-  position: fixed;
-  bottom: 10%;
-  left: 50%;
-  transform: translate(-50%);
   text-align: left;
+  padding-bottom: 2em;
 }
 a:hover {
   color: rgba(0, 0, 0, 0.4);
