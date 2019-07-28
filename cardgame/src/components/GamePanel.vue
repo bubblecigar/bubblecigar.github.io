@@ -5,7 +5,7 @@
       FreeCell&nbsp;
       <i class="fas fa-chess-board slant"></i>
     </h1>
-    <p>level {{level}}</p>
+    <p>Lv. {{level}}</p>
     <p>
       <i class="fas fa-layer-group"></i>
       {{gameInfo.finishedCards}}
