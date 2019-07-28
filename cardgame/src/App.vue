@@ -40,6 +40,7 @@
             :style="{'top':top(ci,gi),'z-index':zIndex(ci)}"
             :class="{'card-hover':holdingSlot.cards.length===0, shining: isShining(gi,si,ci)}"
             @cardPicked="cardPicked"
+            @autoMove="autoMove"
           />
         </CardSlot>
       </SlotGroup>
@@ -49,7 +50,7 @@
         v-for="(card,ci) in holdingSlot.cards"
         :card="card"
         :style="{'top':top(ci)}"
-        class="shining"
+        class="slinging"
       />
     </HoldSlot>
   </div>
@@ -144,6 +145,39 @@ export default {
     }
   },
   methods: {
+    autoMove(indexs) {
+      const group = this.groups[indexs.gi];
+      const slot = group[indexs.si];
+      const b = [...slot];
+      const cards = [...b.splice(indexs.ci)];
+      this.holdingSlot.cards.push(...cards);
+      this.holdingSlot.indexs.gi = indexs.gi;
+      this.holdingSlot.indexs.si = indexs.si;
+      this.holdingSlot.indexs.ci = indexs.ci;
+      // foundation => cascade => cell
+      for (let turn = 0; turn < 3; turn++) {
+        let gi;
+        switch (turn) {
+          case 0:
+            gi = 0;
+            break;
+          case 1:
+            gi = 2;
+            break;
+          case 2:
+            gi = 1;
+            break;
+        }
+        for (let si = 0; si < this.groups[gi].length; si++) {
+          const indexs = { gi, si };
+          this.slotPicked(indexs, false);
+        }
+      }
+
+      setTimeout(() => {
+        this.clearHoldingSlot();
+      }, 1);
+    },
     isShining(gi, si, ci) {
       if (this.holdingSlot.indexs.gi != gi) {
         return false;
@@ -333,7 +367,7 @@ export default {
         }
       }
     },
-    slotPicked(indexs) {
+    slotPicked(indexs, reset = true) {
       // drop
       if (this.holdingSlot.cards.length > 0) {
         const group = this.groups[indexs.gi];
@@ -376,13 +410,16 @@ export default {
             }
           }
         }
-        this.clearHoldingSlot();
+        if (reset === true) {
+          this.clearHoldingSlot();
+        }
       }
     },
     movePile(ii, slot) {
       this.historyStack.push(this.copyGroups());
       slot.push(...this.groups[ii.gi][ii.si].splice(ii.ci));
       this.steps++;
+      this.clearHoldingSlot();
     },
     copyGroups() {
       const newGroups = [
@@ -482,6 +519,21 @@ body {
   }
   to {
     opacity: 0.9;
+  }
+}
+.slinging {
+  animation: sling;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+}
+@keyframes sling {
+  from {
+    transform: rotateZ(5deg);
+  }
+  to {
+    transform: rotateZ(-5deg);
   }
 }
 .unselectable {

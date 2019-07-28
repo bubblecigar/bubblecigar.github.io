@@ -1,5 +1,5 @@
 <template>
-  <div class="card-wrapper" :class="[card.side]" @mousedown="cardPicked">
+  <div class="card-wrapper" :class="[card.side]" @dblclick="autoMove" @mousedown="cardPicked">
     <div class="card-front card unselectable" :class="[card.color]">
       <span class="banner-top banner">
         <i :class="card.suit" v-html="suit_Icon(card.suit)"></i>
@@ -45,6 +45,9 @@ export default {
     }
   },
   methods: {
+    autoMove() {
+      this.$emit("autoMove", this.indexs);
+    },
     cardPicked(e) {
       const layerCoord = {
         layerX: e.layerX,
@@ -103,7 +106,7 @@ export default {
   border-radius: 15px;
   position: absolute;
   transform-style: preserve-3d;
-  transition: transform 0.6s, top 2s;
+  transition: transform 0.6s;
   box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.4);
 }
 .foundation-group .card-wrapper {
