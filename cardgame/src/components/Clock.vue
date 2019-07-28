@@ -18,7 +18,7 @@ export default {
 
 <style scoped>
 i {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 .alert {
   color: darkorange;

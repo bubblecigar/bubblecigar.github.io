@@ -30,21 +30,27 @@
       <Button eventName="giveUp" @giveUp="giveUp">give up</Button>
     </GamePanel>
 
-    <SlotGroup v-for="(group,gi) in groups" :class="[setClassByGI(gi)]">
-      <CardSlot v-for="(slot,si) in group" @slotPicked="slotPicked" :indexs="{gi:gi,si:si}">
-        <Card
-          v-for="(card,ci) in slot"
-          :card="card"
-          :indexs="{gi:gi,si:si,ci:ci}"
-          :style="{'top':top(ci,gi),'opacity':isHide(gi,si,ci),'z-index':zIndex(ci)}"
-          :class="{'card-hover':holdingSlot.cards.length===0}"
-          @cardPicked="cardPicked"
-        />
-      </CardSlot>
-    </SlotGroup>
-
+    <div class="slot-wrapper">
+      <SlotGroup v-for="(group,gi) in groups" :class="[setClassByGI(gi)]">
+        <CardSlot v-for="(slot,si) in group" @slotPicked="slotPicked" :indexs="{gi:gi,si:si}">
+          <Card
+            v-for="(card,ci) in slot"
+            :card="card"
+            :indexs="{gi:gi,si:si,ci:ci}"
+            :style="{'top':top(ci,gi),'z-index':zIndex(ci)}"
+            :class="{'card-hover':holdingSlot.cards.length===0, shining: isShining(gi,si,ci)}"
+            @cardPicked="cardPicked"
+          />
+        </CardSlot>
+      </SlotGroup>
+    </div>
     <HoldSlot :mousePosition="mousePosition" :layerCoord="holdingSlot.layerCoord">
-      <Card v-for="(card,ci) in holdingSlot.cards" :card="card" :style="{'top':top(ci)}" />
+      <Card
+        v-for="(card,ci) in holdingSlot.cards"
+        :card="card"
+        :style="{'top':top(ci)}"
+        class="shining"
+      />
     </HoldSlot>
   </div>
 </template>
@@ -138,6 +144,18 @@ export default {
     }
   },
   methods: {
+    isShining(gi, si, ci) {
+      if (this.holdingSlot.indexs.gi != gi) {
+        return false;
+      }
+      if (this.holdingSlot.indexs.si != si) {
+        return false;
+      }
+      if (this.holdingSlot.indexs.ci > ci) {
+        return false;
+      }
+      return true;
+    },
     updateStamp() {
       this.currentStamp = Date.now();
 
@@ -430,6 +448,9 @@ export default {
 * {
   box-sizing: border-box;
 }
+body {
+  min-height: 100vh;
+}
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -437,12 +458,31 @@ export default {
   text-align: center;
   width: 100%;
   min-width: 980px;
+  min-height: 100vh;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column wrap;
   justify-content: center;
   align-items: center;
   background-color: rgb(99, 146, 99);
   overflow: hidden;
+}
+#app:active {
+  cursor: grabbing;
+}
+.shining {
+  animation: shine;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-direction: alternate;
+}
+@keyframes shine {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 0.9;
+  }
 }
 .unselectable {
   -webkit-touch-callout: none;
@@ -458,9 +498,18 @@ export default {
   align-items: center;
   justify-content: center;
 }
+.slot-wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  max-width: 960px;
+  justify-content: center;
+  align-items: center;
+}
 .background-pattern {
   background-color: transparent;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cpolygon fill='%238eaf71' points='957 450 539 900 1396 900'/%3E%3Cpolygon fill='%236c913f' points='957 450 872.9 900 1396 900'/%3E%3Cpolygon fill='%23b9cba1' points='-60 900 398 662 816 900'/%3E%3Cpolygon fill='%23448045' points='337 900 398 662 816 900'/%3E%3Cpolygon fill='%23ac8648' points='1203 546 1552 900 876 900'/%3E%3Cpolygon fill='%231b7d45' points='1203 546 1552 900 1162 900'/%3E%3Cpolygon fill='%23a2c165' points='641 695 886 900 367 900'/%3E%3Cpolygon fill='%231d6f6d' points='587 900 641 695 886 900'/%3E%3Cpolygon fill='%23c4e33d' points='1710 900 1401 632 1096 900'/%3E%3Cpolygon fill='%231a4c6b' points='1710 900 1401 632 1365 900'/%3E%3Cpolygon fill='%23fbfc26' points='1210 900 971 687 725 900'/%3E%3Cpolygon fill='%236e743d' points='943 900 1210 900 971 687'/%3E%3C/svg%3E");
   background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 </style>

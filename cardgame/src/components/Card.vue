@@ -103,8 +103,14 @@ export default {
   border-radius: 15px;
   position: absolute;
   transform-style: preserve-3d;
-  box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.5);
   transition: transform 0.6s, top 2s;
+  box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.4);
+}
+.foundation-group .card-wrapper {
+  box-shadow: -2px -2px 5px rgba(0, 0, 0, 0);
+}
+.foundation-group .card-wrapper:last-child {
+  box-shadow: -2px -2px 5px rgba(0, 0, 0, 1);
 }
 .card-hover:hover {
   cursor: pointer;
