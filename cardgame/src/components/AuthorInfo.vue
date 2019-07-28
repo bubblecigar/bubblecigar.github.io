@@ -39,7 +39,7 @@ export default {};
   text-align: left;
 }
 a:hover {
-  background-color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.4);
 }
 a {
   padding: 2px 5px;
