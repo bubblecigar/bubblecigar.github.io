@@ -98,6 +98,7 @@ export default {
 .hide {
   z-index: -1;
   color: transparent;
+  display: none;
 }
 h1 {
   font-size: 1.5em;
