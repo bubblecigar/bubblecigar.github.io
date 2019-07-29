@@ -66,7 +66,6 @@ export default {
 }
 .wrapper.hide {
   z-index: -1;
-  display: none;
 }
 .score-board {
   width: 80%;

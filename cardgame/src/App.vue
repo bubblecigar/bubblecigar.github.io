@@ -528,20 +528,6 @@ export default {
   box-sizing: border-box;
 }
 @media (orientation: portrait) {
-  html,
-  body {
-    height: 100vw;
-  }
-  body {
-    -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    transform: rotate(90deg);
-  }
-  #app {
-    min-width: 100vh;
-  }
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
