@@ -3,6 +3,7 @@
     id="app"
     @mousemove="updateMousePosition"
     @mouseup="captureCards"
+    @touchstart="touched"
     class="background-pattern noselect"
   >
     <GameMenu :gameInfo="gameInfo">
@@ -37,20 +38,32 @@
 
     <div class="slot-wrapper">
       <SlotGroup v-for="(group,gi) in groups" :class="[setClassByGI(gi)]">
-        <CardSlot v-for="(slot,si) in group" @slotPicked="slotPicked" :indexs="{gi:gi,si:si}">
+        <CardSlot
+          v-for="(slot,si) in group"
+          @slotPicked="slotPicked"
+          @slotTouched="slotTouched"
+          :indexs="{gi:gi,si:si}"
+          :touchDevice="touchDevice"
+        >
           <Card
             v-for="(card,ci) in slot"
             :card="card"
             :indexs="{gi:gi,si:si,ci:ci}"
+            :touchDevice="touchDevice"
             :style="{'top':top(ci,gi),'z-index':zIndex(ci)}"
             :class="{'card-hover':holdingSlot.cards.length===0, shining: isShining(gi,si,ci)}"
             @cardPicked="cardPicked"
+            @cardTouched="cardTouched"
             @autoMove="autoMove"
           />
         </CardSlot>
       </SlotGroup>
     </div>
-    <HoldSlot :mousePosition="mousePosition" :layerCoord="holdingSlot.layerCoord">
+    <HoldSlot
+      :mousePosition="mousePosition"
+      :layerCoord="holdingSlot.layerCoord"
+      :class="{'noDisplay':touchDevice}"
+    >
       <Card
         v-for="(card,ci) in holdingSlot.cards"
         :card="card"
@@ -69,6 +82,7 @@ export default {
   components: {},
   data() {
     return {
+      touchDevice: false,
       groups: [
         [[], [], [], []],
         [[], [], [], []],
@@ -152,6 +166,12 @@ export default {
     }
   },
   methods: {
+    touched(e) {
+      this.touchDevice = true;
+      this.mousePosition.clientX = e.touches[0].clientX;
+      this.mousePosition.clientY = e.touches[0].clientY;
+      this.clearHoldingSlot();
+    },
     autoMove(indexs) {
       const group = this.groups[indexs.gi];
       const slot = group[indexs.si];
@@ -255,6 +275,9 @@ export default {
       }
     },
     captureCards() {
+      if (this.touchDevice === true) {
+        return;
+      }
       this.clearHoldingSlot();
     },
     updateMousePosition(e) {
@@ -341,7 +364,19 @@ export default {
       newCard.suit = target.suit;
       return newCard;
     },
-    cardPicked(indexs, layerCoord) {
+    cardTouched(indexs) {
+      setTimeout(() => {
+        if (this.holdingSlot.cards.length === 0) {
+          this.cardPicked(indexs);
+        }
+      }, 5);
+    },
+    slotTouched(indexs) {
+      if (this.holdingSlot.cards.length > 0) {
+        this.slotPicked(indexs);
+      }
+    },
+    cardPicked(indexs, layerCoord = { layerX: 25, layerY: 50 }) {
       // drag
       if (this.holdingSlot.cards.length === 0) {
         const group = this.groups[indexs.gi];
@@ -495,6 +530,16 @@ export default {
 body {
   min-height: 100vh;
 }
+@media (orientation: portrait) {
+  body {
+    height: 100vw;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+}
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -579,5 +624,8 @@ body {
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
+}
+.noDisplay {
+  display: none;
 }
 </style>

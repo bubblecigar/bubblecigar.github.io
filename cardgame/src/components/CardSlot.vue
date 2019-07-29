@@ -1,5 +1,9 @@
 <template>
-  <div class="card-slot unselectable background-pattern" @mouseup="slotPicked">
+  <div
+    class="card-slot unselectable background-pattern"
+    @mouseup="slotPicked"
+    @touchstart="slotTouched"
+  >
     <div class="hint" v-html="hint"></div>
     <slot></slot>
   </div>
@@ -8,13 +12,24 @@
 <script>
 export default {
   props: {
+    touchDevice: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     indexs: {
       type: Object,
       required: true
     }
   },
   methods: {
+    slotTouched(e) {
+      this.$emit("slotTouched", this.indexs);
+    },
     slotPicked() {
+      if (this.touchDevice === true) {
+        return;
+      }
       this.$emit("slotPicked", this.indexs);
     }
   },
@@ -28,6 +43,7 @@ export default {
         case 2:
           return `<i class="fas fa-dolly-flatbed"></i>`;
       }
+      return false;
     }
   }
 };

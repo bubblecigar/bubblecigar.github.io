@@ -71,7 +71,9 @@ export default {
   width: 80%;
   height: 80%;
   min-width: 760px;
+  max-width: 960px;
   min-height: 400px;
+  max-height: 500px;
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -79,6 +81,9 @@ export default {
   border-radius: 30px;
   transition: 1.5s transform;
   transform: translateY(0);
+}
+.score-board .customized-button {
+  color: initial;
 }
 .hide .score-board {
   transform: translateY(-200%);

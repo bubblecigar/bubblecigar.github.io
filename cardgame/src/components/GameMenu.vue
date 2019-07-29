@@ -75,7 +75,9 @@ export default {
   width: 80%;
   height: 80%;
   min-width: 760px;
+  max-width: 960px;
   min-height: 400px;
+  max-height: 500px;
   border-radius: 30px;
   display: flex;
   flex-flow: column;

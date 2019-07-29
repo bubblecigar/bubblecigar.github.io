@@ -1,5 +1,11 @@
 <template>
-  <div class="card-wrapper" :class="[card.side]" @dblclick="autoMove" @mousedown="cardPicked">
+  <div
+    class="card-wrapper"
+    :class="[card.side]"
+    @dblclick="autoMove"
+    @mousedown="cardPicked"
+    @touchstart="cardTouched"
+  >
     <div class="card-front card unselectable" :class="[card.color]">
       <span class="banner-top banner">
         <i :class="card.suit" v-html="suit_Icon(card.suit)"></i>
@@ -19,6 +25,11 @@
 <script>
 export default {
   props: {
+    touchDevice: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     card: {
       type: Object,
       required: false,
@@ -48,11 +59,17 @@ export default {
     autoMove() {
       this.$emit("autoMove", this.indexs);
     },
+    cardTouched() {
+      this.$emit("cardTouched", this.indexs);
+    },
     cardPicked(e) {
       const layerCoord = {
         layerX: e.layerX,
         layerY: e.layerY
       };
+      if (this.touchDevice === true) {
+        return;
+      }
       this.$emit("cardPicked", this.indexs, layerCoord);
     },
     point_AKQJ(point) {
