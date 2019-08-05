@@ -7,8 +7,17 @@
     <ul class="menu" v-if="showMenu">
       <span>showing {{ 25 * page }} to {{ 25 * (page + 1) }}</span>
       <button @click="prevPage" v-if="page > 0">prev</button>
-      <button @click="nextPage" v-if="25 * (page + 1) < totalSongs">next</button>
-      <li v-for="(el, i) in songList" class="option" @click="select(i)" :key="i">{{ el.title }}</li>
+      <button @click="nextPage" v-if="25 * (page + 1) < totalSongs">
+        next
+      </button>
+      <li
+        v-for="(el, i) in songList"
+        class="option"
+        @click="select(i)"
+        :key="i"
+      >
+        {{ el.title }}
+      </li>
     </ul>
   </div>
 </template>
@@ -66,8 +75,6 @@ export default {
 </script>
 
 <style scoped>
-.search-log {
-}
 .menu {
   display: flex;
   flex-flow: column;

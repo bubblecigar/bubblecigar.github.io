@@ -19,14 +19,20 @@ export default {
       audio: undefined,
       isPaused: undefined,
       isMuted: undefined,
-      loop: true,
+      loop: false,
       canplay: false,
       toNextSong: false
     };
   },
   computed: {
+    songs() {
+      return this.$store.state.songs;
+    },
+    songIndex() {
+      return this.$store.state.songIndex;
+    },
     song() {
-      return this.$store.state.song;
+      return this.songs[this.songIndex];
     },
     volume() {
       return this.$store.state.volume;
@@ -100,6 +106,7 @@ export default {
     });
     this.audio.addEventListener("ended", () => {
       if (this.toNextSong === true) {
+        this.$store.dispatch("nextSong");
       }
     });
   }

@@ -67,6 +67,7 @@ export default new Vuex.Store({
       },
       type: "track"
     },
+    songIndex: 0,
     totalSongs: 0,
     volume: 1,
     duration: 1,
@@ -78,6 +79,15 @@ export default new Vuex.Store({
     },
     SET_SONG({ state }, index) {
       this.state.song = this.state.songs[index];
+    },
+    ADD_SONG_INDEX({}) {
+      this.state.songIndex++;
+    },
+    RESET_SONG_INDEX({}) {
+      this.state.songIndex = 0;
+    },
+    SET_SONG_INDEX({}, index) {
+      this.state.songIndex = index;
     },
     SET_TOTAL_SONGS({ state }, total) {
       this.state.totalSongs = total;
@@ -105,7 +115,14 @@ export default new Vuex.Store({
         });
     },
     selectSong({}, index) {
-      this.state.song = this.state.songs[index];
+      this.commit("SET_SONG_INDEX", index);
+    },
+    nextSong({}) {
+      if (this.state.songIndex === this.state.songs.length - 1) {
+        this.commit("RESET_SONG_INDEX");
+      } else {
+        this.commit("ADD_SONG_INDEX");
+      }
     }
   }
 });

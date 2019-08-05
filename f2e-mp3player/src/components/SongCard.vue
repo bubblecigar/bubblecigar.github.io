@@ -10,8 +10,11 @@
 <script>
 export default {
   computed: {
+    songIndex() {
+      return this.$store.state.songIndex;
+    },
     song() {
-      return this.$store.state.song;
+      return this.$store.state.songs[this.songIndex];
     },
     title() {
       return this.song.title;
