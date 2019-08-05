@@ -5,7 +5,8 @@
       <router-link to="/about">About</router-link>|
       <router-link to="/search">search</router-link>
     </div>-->
-    <router-view />
+    <!-- <router-view /> -->
+    <SearchLog></SearchLog>
     <SongCard></SongCard>
   </div>
 </template>
