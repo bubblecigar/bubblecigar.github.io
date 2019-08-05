@@ -5,6 +5,7 @@
     <button v-if="!isPaused" @click="pause">pause</button>
     <button @click="mute">muted:{{ isMuted }}</button>
     <button @click="loop = !loop">loop? {{ loop }}</button>
+    <button @click="toNextSong = !toNextSong">next? {{ toNextSong }}</button>
     <ControlBar :bindAttri="'volume'" :barWidth="300"></ControlBar>
     <span>:::</span>
     <ControlBar :bindAttri="'current'" :barWidth="300"></ControlBar>
@@ -12,7 +13,6 @@
 </template>
 
 <script>
-import { setTimeout } from "timers";
 export default {
   data() {
     return {
@@ -20,7 +20,8 @@ export default {
       isPaused: undefined,
       isMuted: undefined,
       loop: true,
-      canplay: false
+      canplay: false,
+      toNextSong: false
     };
   },
   computed: {
@@ -69,7 +70,7 @@ export default {
     pause() {
       this.audio.pause();
     },
-    updateCurrent(second) {
+    updateCurrent() {
       this.$store.commit(
         "SET_CURRENT",
         this.audio.currentTime / this.$store.state.duration
@@ -81,9 +82,10 @@ export default {
     this.audio = audio;
     this.isPaused = audio.paused;
     this.isMuted = audio.muted;
-    this.audio.oncanplay = () => {
+    this.audio.addEventListener("canplay", () => {
       this.$store.commit("SET_DURATION", this.audio.duration);
-    };
+      this.audio.autoplay = true;
+    });
     this.$store.commit("SET_VOLUME", this.audio.volume);
 
     this.audio.addEventListener("timeupdate", () => {
@@ -95,6 +97,10 @@ export default {
     });
     this.audio.addEventListener("pause", () => {
       this.isPaused = true;
+    });
+    this.audio.addEventListener("ended", () => {
+      if (this.toNextSong === true) {
+      }
     });
   }
 };
