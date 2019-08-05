@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath: "/f2e-mp3player/dist/"
+  publicPath: "/Mp3player/"
 };
