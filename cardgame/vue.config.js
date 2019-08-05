@@ -1,3 +1,3 @@
 module.exports = {
-  publicPath: '/F2E-freecell/'
+  publicPath: '/Mp3player/'
 }
