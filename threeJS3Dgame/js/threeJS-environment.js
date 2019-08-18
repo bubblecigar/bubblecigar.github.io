@@ -170,19 +170,12 @@ function main() {
         const geometry = new THREE.PlaneBufferGeometry(width, height);
 
         // material - texture
-        const loader = new THREE.TextureLoader();
-        const url = '../img/checker.png';
-        const texture = loader.load(url);
         const material = new THREE.MeshPhongMaterial({
             // map: texture,
             // color: 'green'
             // side: THREE.DoubleSide
         });
         material.color.setRGB(.2, .35, .2);
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(width / 2, height / 2);
-        texture.magFilter = THREE.NearestFilter;
 
         // mesh
         const mesh = new THREE.Mesh(geometry, material);
@@ -328,7 +321,7 @@ function main() {
     // const animals = ['Cow'];
     const animals = ['Cow', 'Zebra', 'Horse'];
     const weapon = {};
-    const trees = ['BirchTree_1', 'BirchTree_2', 'BirchTree_3', 'BirchTree_Dead_1', 'BirchTree_Autumn_1'];
+    const trees = ['BirchTree_1', 'BirchTree_Dead_1', 'BirchTree_Autumn_1'];
     const fbxs = {};
     const animalModels = {};
     const loadingManager = new THREE.LoadingManager();
