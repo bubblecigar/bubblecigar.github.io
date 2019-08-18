@@ -15,6 +15,7 @@
 </head>
 
 <body>
+
     <canvas id="canvas"></canvas>
     <div id="app">
 
@@ -38,8 +39,8 @@
                     press Enter
                 </span>
             </p>
-
         </div>
+
         <div id="gameState-panel" v-if='showPanel'>
 
             <p class="time">
@@ -61,7 +62,10 @@
         </div>
 
         <div id="score-panel" v-show='gameState.state==="end"'>
-            <h1>{{ scoreBoardTitle }}</h1>
+            <h1 class="game-title">{{ scoreBoardTitle }}</h1>
+            <p class="description">
+                {{ endingStory }}
+            </p>
             <table>
                 <tr>
                     <th>
@@ -94,10 +98,10 @@
                     </td>
                 </tr>
                 <tr class="finalScore">
-                    <th>
+                    <th class='markup'>
                         Score
                     </th>
-                    <td>
+                    <td class='markup'>
                         <i>=</i> {{ finalScore }}
                     </td>
                 </tr>

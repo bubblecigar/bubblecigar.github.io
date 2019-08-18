@@ -33,6 +33,13 @@ const vue = new Vue({
         finalScore() {
             return Math.floor(this.gameState.hp * 10 + this.gameState.score * 5 * this.accuracy * .01)
         },
+        endingStory() {
+            if (this.gameState.hp > 0) {
+                return 'The rescue team arrive.  You leave the place and swear that you will never enter the forest again.'
+            }
+            return 'When the rescue team arrive, they see no survivor, but a victim be cruelly killed by some unknow creatures...'
+
+        },
         showPanel() {
             if (gameState.state === 'wait') {
                 return false
@@ -51,7 +58,7 @@ const vue = new Vue({
             if (this.gameState.hp <= 0) {
                 return 'Defeat...'
             }
-            return 'Survive!'
+            return 'Survive...'
         }
     },
     methods: {

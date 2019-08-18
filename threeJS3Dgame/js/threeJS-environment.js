@@ -16,80 +16,93 @@ const gameState = {
     startFunction: undefined
 }
 
+//load audios
 
 const audioBlob = {
     gunShot: undefined,
     animalGasp: undefined,
     damagedSound: undefined,
-    darkWind: undefined,
-    bgm: undefined
+    darkWind: undefined
 }
 
-// gunshot
-fetch('audio/gun-blast_A_minor.wav')
-    .then(response => {
-        return response.blob()
-    })
-    .then(blob => {
-        audioBlob.gunShot = URL.createObjectURL(blob);
-        new Audio(audioBlob.gunShot)
-    }).catch(err => {
-        console.log(err)
-    })
-// animal be shot
-fetch('audio/kicked_G_major.wav')
-    .then(response => {
-        return response.blob()
-    })
-    .then(blob => {
-        audioBlob.animalGasp = URL.createObjectURL(blob);
-        new Audio(audioBlob.animalGasp)
-    }).catch(err => {
-        console.log(err)
-    })
-// damaged sound
-fetch('audio/industrial-fx.wav')
-    .then(response => {
-        return response.blob()
-    })
-    .then(blob => {
-        audioBlob.damagedSound = URL.createObjectURL(blob);
-        new Audio(audioBlob.damagedSound)
-    }).catch(err => {
-        console.log(err)
-    })
-// darkwind
-fetch('audio/long-stretched-huh-with-reverb.wav')
-    .then(response => {
-        return response.blob()
-    })
-    .then(blob => {
-        audioBlob.darkWind = URL.createObjectURL(blob);
-        new Audio(audioBlob.darkWind)
-    }).catch(err => {
-        console.log(err)
-    })
-// background
-fetch('audio/eerie-string-pad_125bpm_E_major.wav')
-    .then(response => {
-        return response.blob()
-    })
-    .then(blob => {
-        audioBlob.bgm = URL.createObjectURL(blob);
-        const audio = new Audio(audioBlob.bgm);
-        audio.loop = true;
-        audio.autoplay = true;
-    })
-    .catch(err => {
-        console.log(err)
-    })
-
-
-
+{ // gunshot
+    fetch('audio/gun-blast_A_minor.wav')
+        .then(response => {
+            return response.blob()
+        })
+        .then(blob => {
+            audioBlob.gunShot = URL.createObjectURL(blob);
+            new Audio(audioBlob.gunShot)
+        }).catch(err => {
+            console.log(err)
+        })
+    // animal be shot
+    fetch('audio/kicked_G_major.wav')
+        .then(response => {
+            return response.blob()
+        })
+        .then(blob => {
+            audioBlob.animalGasp = URL.createObjectURL(blob);
+            new Audio(audioBlob.animalGasp)
+        }).catch(err => {
+            console.log(err)
+        })
+    // damaged sound
+    fetch('audio/industrial-fx.wav')
+        .then(response => {
+            return response.blob()
+        })
+        .then(blob => {
+            audioBlob.damagedSound = URL.createObjectURL(blob);
+            new Audio(audioBlob.damagedSound)
+        }).catch(err => {
+            console.log(err)
+        })
+    // darkwind
+    fetch('audio/long-stretched-huh-with-reverb.wav')
+        .then(response => {
+            return response.blob()
+        })
+        .then(blob => {
+            audioBlob.darkWind = URL.createObjectURL(blob);
+            new Audio(audioBlob.darkWind)
+        }).catch(err => {
+            console.log(err)
+        })
+    // gameend
+    fetch('audio/sphere-drone.wav')
+        .then(response => {
+            return response.blob()
+        })
+        .then(blob => {
+            audioBlob.gameEnd = URL.createObjectURL(blob);
+            new Audio(audioBlob.gameEnd)
+        }).catch(err => {
+            console.log(err)
+        })
+    // background
+    // fetch('audio/eerie-string-pad_125bpm_E_major.wav')
+    //     .then(response => {
+    //         return response.blob()
+    //     })
+    //     .then(blob => {
+    //         audioBlob.bgm = URL.createObjectURL(blob);
+    //         new Audio(audioBlob.bgm);
+    //     })
+    //     .catch(err => {
+    //         console.log(err)
+    //     })
+}
+const bgm = new Audio('audio/eerie-string-pad_125bpm_E_major.wav');
+bgm.loop = true;
+bgm.autoplay = true;
 
 main();
 
 function main() {
+
+
+
 
 
     // renderer
@@ -133,6 +146,15 @@ function main() {
         }
     }
 
+    function fogFadeIn(t, targetDensity = 0.15, interval = 0.001) {
+        if (scene.fog.density <= targetDensity) {
+            scene.fog.density += interval;
+            window.requestAnimationFrame(fogFadeIn);
+        } else {
+            scene.fog.density = targetDensity;
+        }
+    }
+
     // camera
     const fov = 40;
     const aspect = 2;
@@ -148,7 +170,7 @@ function main() {
 
     // set light
     const color = 0xFFFFFF;
-    const intensity = 1;
+    const intensity = .5;
     const amblight = new THREE.AmbientLight(color, .3);
     const light = new THREE.SpotLight(color, intensity);
     light.position.set(0, 5, 5);
@@ -262,6 +284,15 @@ function main() {
 
     }
 
+    // targeting light
+    const targetingLight = new THREE.SpotLight('red', 4);
+    targetingLight.position.set(0, 5, 3);
+    targetingLight.angle = Math.PI / 60;
+    targetingLight.decay = .5;
+    const aimingTarget = targetingLight.target;
+    scene.add(aimingTarget);
+    scene.add(targetingLight);
+
     const bullets = [];
 
     function fire(caster, size = .1) {
@@ -277,6 +308,7 @@ function main() {
             roughness: .8
         })
         const mesh = new THREE.Mesh(geometry, material);
+        mesh.name = 'bullet';
 
         const origin = new THREE.Vector3();
         caster.getWorldPosition(origin);
@@ -338,7 +370,7 @@ function main() {
         gameState.loadingProgress.itemsTotal = itemsTotal;
     }
 
-
+    // load animals' fbxs
     {
         const loader = new THREE.FBXLoader(loadingManager);
         animals.forEach((animal, i) => {
@@ -363,7 +395,7 @@ function main() {
                 }
             })
         })
-        // load gun
+        // load gun' fbxs
         loader.load(`/3dModel/guns by @Quaternius/AssaultRifle_1.fbx`, fbx => {
             fbxs.weapon = fbx;
             fbx.traverse(el => {
@@ -388,7 +420,7 @@ function main() {
             wrapper.add(fbx);
             weapon.fbx = fbx;
         })
-
+        // load trees' fbxs
         trees.forEach(tree => {
             loader.load(`/3dModel/Trees by @Quaternius/${tree}.fbx`, fbx => {
                 fbxs[tree] = fbx;
@@ -406,6 +438,33 @@ function main() {
                 })
             })
         })
+        // load flag
+        loader.load(`/3dModel/Flag by @Quaternius.fbx`, fbx => {
+            fbxs.flag = fbx;
+            fbx.traverse(el => {
+                if (el instanceof THREE.Mesh) {
+                    el.material.forEach(el => {
+                        el.shininess = 0;
+                    })
+                }
+            })
+            fbx.traverse(x => {
+                if (x instanceof THREE.Mesh) {
+                    x.castShadow = true
+                }
+            })
+            const wrapper = new THREE.Object3D();
+            wrapper.scale.set(.006, .006, .006);
+
+            wrapper.position.set(0, 0, 0);
+            wrapper.rotation.y = Math.PI;
+            // wrapper.rotation.z = Math.PI / 4;
+            wrapper.rotation.x = Math.PI / 2;
+
+            scene.add(wrapper);
+            wrapper.add(fbx);
+            meshes.flag = wrapper;
+        })
     }
 
 
@@ -417,14 +476,13 @@ function main() {
         wrapper.up = new THREE.Vector3(0, 0, 1);
         wrapper.lookAt(0, 100, 0);
         fbx.rotation.y = Math.random() * 2
-        // meshes.gun.add(wrapper);
         wrapper.add(clone);
         scene.add(wrapper)
     }
 
     function createForest() {
 
-        const minRadius = 18;
+        const minRadius = 20;
         const maxRadius = 40;
 
 
@@ -438,7 +496,7 @@ function main() {
         function rollPos(minR, maxR) {
             const r = minR + Math.random() * (maxR - minR);
             const sign = Math.ceil(.5 - Math.random()) * 2 - 1;
-            const theta = Math.PI * (Math.random());
+            const theta = Math.PI * (Math.random() * 1.5 - .25);
             const x = r * Math.cos(theta) * sign;
             const y = r * Math.sin(theta);
             return [x, y]
@@ -577,21 +635,6 @@ function main() {
         }
     }
 
-    // hinting target
-    {
-        const geometry = new THREE.SphereGeometry(.5, 32, 32);
-        const material = new THREE.MeshBasicMaterial({
-            color: 'red',
-            side: THREE.DoubleSide
-        })
-        const mesh = new THREE.Mesh(geometry, material);
-        mesh.rotation.x = Math.PI / 2;
-        mesh.position.z = .01;
-        scene.add(mesh);
-        meshes.marker = mesh;
-    }
-
-
     // ray
     function castRay(caster) {
         if (!caster) {
@@ -610,7 +653,8 @@ function main() {
         const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
         ray.intersectPlane(plane, vecBuffer);
 
-        meshes.marker.position.set(vecBuffer.x, vecBuffer.y, vecBuffer.z)
+        targetingLight.position.set(origin.x, origin.y, origin.z)
+        aimingTarget.position.set(vecBuffer.x, vecBuffer.y, vecBuffer.z)
         lightTarget.position.set(vecBuffer.x, vecBuffer.y, vecBuffer.z)
 
         return vecBuffer
@@ -631,14 +675,25 @@ function main() {
     const clock = new THREE.Clock(false);
 
     function gameStart() {
-        new Audio(audioBlob.darkWind).play();
+        bgm.play();
+        fogFadeOut();
         clock.start();
     }
     gameState.startFunction = gameStart;
 
     function gameEnd() {
+        new Audio(audioBlob.gameEnd).play();
         clock.stop();
-        gameState.state = 'end'
+        gameState.state = 'end';
+        scene.traverse(el => {
+            if (el instanceof THREE.Mesh) {
+                if (el.name === 'bullet') {
+                    scene.remove(el);
+                    // Bug:  some bullets not be recycled
+                    // fix it at game end
+                }
+            }
+        })
     }
 
     let stamp = 0;
@@ -679,7 +734,6 @@ function main() {
             el.mesh.position.z += el.direction.z / 4;
 
         })
-        recyclingBullets()
 
         // move enemies
         const delEnemies = [];
@@ -702,6 +756,7 @@ function main() {
         }
         bullets_enemies_collide()
         enemies_body_collide()
+        recyclingBullets()
 
         // adjusting the camera according to canvas client size
         const needResize = resizeRendererToDisplaySize(renderer);
@@ -712,7 +767,7 @@ function main() {
         }
 
         // gamestate management
-        if (gameState.hp <= 0 || gameState.elaspedTime >= 90) {
+        if (gameState.hp <= 0 || gameState.elaspedTime >= 90 && gameState.state != 'end') {
             gameEnd();
         }
         renderer.render(scene, camera);
