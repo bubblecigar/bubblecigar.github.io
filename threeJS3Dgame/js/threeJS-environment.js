@@ -685,15 +685,17 @@ function main() {
         new Audio(audioBlob.gameEnd).play();
         clock.stop();
         gameState.state = 'end';
-        scene.traverse(el => {
-            if (el instanceof THREE.Mesh) {
-                if (el.name === 'bullet') {
-                    scene.remove(el);
-                    // Bug:  some bullets not be recycled
-                    // fix it at game end
-                }
-            }
-        })
+        // if (scene) {
+        //     scene.traverse(el => {
+        //         if (el instanceof THREE.Mesh) {
+        //             if (el.name === 'bullet') {
+        //                 scene.remove(el);
+        //                 // Bug:  some bullets not be recycled
+        //                 // fix it at game end
+        //             }
+        //         }
+        //     })
+        // }
     }
 
     let stamp = 0;
