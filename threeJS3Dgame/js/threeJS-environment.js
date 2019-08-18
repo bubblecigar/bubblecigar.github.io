@@ -22,7 +22,8 @@ const audioBlob = {
     gunShot: undefined,
     animalGasp: undefined,
     damagedSound: undefined,
-    darkWind: undefined
+    darkWind: undefined,
+    gameEnd: undefined
 }
 
 { // gunshot
@@ -70,7 +71,7 @@ const audioBlob = {
             console.log(err)
         })
     // gameend
-    fetch('audio/sphere-drone.wav')
+    fetch('audio/old-rhodes-chord_90bpm_D.wav')
         .then(response => {
             return response.blob()
         })
@@ -682,6 +683,7 @@ function main() {
     gameState.startFunction = gameStart;
 
     function gameEnd() {
+        console.log('end')
         new Audio(audioBlob.gameEnd).play();
         clock.stop();
         gameState.state = 'end';
@@ -769,9 +771,13 @@ function main() {
         }
 
         // gamestate management
-        if (gameState.hp <= 0 || gameState.elaspedTime >= 90 && gameState.state != 'end') {
-            gameEnd();
+        if (gameState.state != 'end') {
+            if (gameState.hp <= 0 || gameState.elaspedTime >= 90) {
+                gameEnd();
+            }
         }
+
+
         renderer.render(scene, camera);
         window.requestAnimationFrame(render);
     }
