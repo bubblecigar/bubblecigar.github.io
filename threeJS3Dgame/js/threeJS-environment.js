@@ -342,7 +342,7 @@ function main() {
     {
         const loader = new THREE.FBXLoader(loadingManager);
         animals.forEach((animal, i) => {
-            const url = `../3dModel/Farm Animals by @Quaternius/FBX/${animal}.fbx`;
+            const url = `/3dModel/Farm Animals by @Quaternius/FBX/${animal}.fbx`;
             loader.load(url, fbx => {
                 fbx.traverse(el => {
                     if (el instanceof THREE.Mesh) {
@@ -364,7 +364,7 @@ function main() {
             })
         })
         // load gun
-        loader.load(`../3dModel/guns by @Quaternius/AssaultRifle_1.fbx`, fbx => {
+        loader.load(`/3dModel/guns by @Quaternius/AssaultRifle_1.fbx`, fbx => {
             fbxs.weapon = fbx;
             fbx.traverse(el => {
                 if (el instanceof THREE.Mesh) {
@@ -390,7 +390,7 @@ function main() {
         })
 
         trees.forEach(tree => {
-            loader.load(`../3dModel/Trees by @Quaternius/${tree}.fbx`, fbx => {
+            loader.load(`/3dModel/Trees by @Quaternius/${tree}.fbx`, fbx => {
                 fbxs[tree] = fbx;
                 fbx.traverse(el => {
                     if (el instanceof THREE.Mesh) {
