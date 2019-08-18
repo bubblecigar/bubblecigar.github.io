@@ -1,0 +1,126 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="js/three.js-master//build/three.min.js"></script>
+    <script src="js/vue.develope.js"></script>
+    <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css">
+    <link rel="stylesheet" href="css/threeJS.css">
+    <link href="https://fonts.googleapis.com/css?family=Orbitron&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/805959218e.js"></script>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <div id="app">
+
+
+        <div id="loading-panel" v-if='gameState.state === "wait"'>
+            <h1 class="game-title">Dark Forest</h1>
+            <p class="description">
+                You are trapped in a forest.
+                Rescue team would arrive in 90 seconds.
+            </p>
+            <p class="description">
+                Suddenly, you hear something rustling in the dark,
+                and you have a sinking feeling about that...
+            </p>
+            <p class="bar-wrapper" :class='{"button-start":readyToStart}'>
+                <span class="loading-bar" :style='{width:barWidth}'></span>
+                <span class="hinting" v-if='!readyToStart'>
+                    Loading...{{gameState.loadingProgress.itemsLoaded}}/{{gameState.loadingProgress.itemsTotal}}
+                </span>
+                <span class="hinting start-hinting" v-if='readyToStart'>
+                    press Enter
+                </span>
+            </p>
+
+        </div>
+        <div id="gameState-panel" v-if='showPanel'>
+
+            <p class="time">
+                {{Math.floor(91 - gameState.elaspedTime)}}s
+            </p>
+            <p class="hp">
+                <i class="fa-heart" :class='{"fas":gameState.hp>=1,"far":gameState.hp<1}'></i>
+                <i class="fa-heart" :class='{"fas":gameState.hp>=2,"far":gameState.hp<2}'></i>
+                <i class="fa-heart" :class='{"fas":gameState.hp>=3,"far":gameState.hp<3}'></i>
+                <i class="fa-heart" :class='{"fas":gameState.hp>=4,"far":gameState.hp<4}'></i>
+                <i class="fa-heart" :class='{"fas":gameState.hp>=5,"far":gameState.hp<5}'></i>
+                <i class="fa-heart" :class='{"fas":gameState.hp>=6,"far":gameState.hp<6}'></i>
+                <i class="fa-heart" :class='{"fas":gameState.hp>=7,"far":gameState.hp<7}'></i>
+                <i class="fa-heart" :class='{"fas":gameState.hp>=8,"far":gameState.hp<8}'></i>
+                <i class="fa-heart" :class='{"fas":gameState.hp>=9,"far":gameState.hp<9}'></i>
+                <i class="fa-heart" :class='{"fas":gameState.hp>=10,"far":gameState.hp<10}'></i>
+            </p>
+            <p class="level">stage {{gameState.level}}</p>
+        </div>
+
+        <div id="score-panel" v-show='gameState.state==="end"'>
+            <h1>{{ scoreBoardTitle }}</h1>
+            <table>
+                <tr>
+                    <th>
+                        Health
+
+                    </th>
+                    <td>
+                        {{gameState.hp}}
+                        <i>&times; 10</i>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Kills
+                    </th>
+                    <td>
+                        <i>+</i>
+                        {{ gameState.score }}
+                        <i>&times; 5</i>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+
+                        Hit Rate
+                    </th>
+                    <td>
+                        <i>&times;</i>
+                        {{ accuracy }} %
+                    </td>
+                </tr>
+                <tr class="finalScore">
+                    <th>
+                        Score
+                    </th>
+                    <td>
+                        <i>=</i> {{ finalScore }}
+                    </td>
+                </tr>
+            </table>
+            <span class="reStart-hinting">
+                press Enter to restart
+            </span>
+
+
+        </div>
+    </div>
+
+    <script src='js/dat.gui.min.js'></script>
+    <script src="js/three.js-master/examples/js/controls/OrbitControls.js"></script>
+    <script src='js/three.js-master/examples/js/loaders/LoaderSupport.js'></script>
+    <script src='js/three.js-master/examples/js/loaders/OBJLoader2.js'></script>
+    <script src='js/three.js-master/examples/js/loaders/MTLLoader.js'></script>
+    <script src='js/three.js-master/examples/js/loaders/GLTFLoader.js'></script>
+    <script src="js/Inflate.min.js"></script>
+    <script src='js/three.js-master/examples/js/loaders/FBXLoader.js'></script>
+    <script src='js/three.js-master/examples/js/utils/SkeletonUtils.js'></script>
+    <script src="js/threeJS-environment.js"></script>
+    <script src="js/vue.js"></script>
+</body>
+
+</html>
