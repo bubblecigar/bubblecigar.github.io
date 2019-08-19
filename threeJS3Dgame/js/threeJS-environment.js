@@ -98,27 +98,30 @@ const bgm = new Audio('audio/eerie-string-pad_125bpm_E_major.wav');
 bgm.loop = true;
 bgm.autoplay = true;
 
+const mouse = {
+    layerX: 0,
+    layerY: 0,
+    x: 0.,
+    y: 0.5
+}
+const canvas = document.querySelector('#canvas');
+canvas.addEventListener('mousemove', e => {
+    mouse.layerX = e.layerX;
+    mouse.layerY = e.layerY;
+    mouse.x = (e.layerX * 2 / canvas.clientWidth) - 1;
+    mouse.y = 1 - (e.layerY * 2 / canvas.clientHeight);
+}, false)
+
 main();
 
 function main() {
-
-
-
-
-
     // renderer
-    const canvas = document.querySelector('#canvas');
+
     const renderer = new THREE.WebGLRenderer({
         canvas
     });
     renderer.shadowMap.enabled = true;
 
-    const mouse = {
-        layerX: 0,
-        layerY: 0,
-        x: 0.,
-        y: 0.5
-    }
 
 
     // scene
@@ -182,28 +185,35 @@ function main() {
     scene.add(amblight);
     light.castShadow = true;
 
+    // origin light
+    {
+        const light = new THREE.PointLight('darkred', 1);
+        light.position.set(-1, -1, 2);
+        light.decay = 2;
+        light.distance = 5;
+        scene.add(light);
+    }
+
     // set meshes
     const meshes = {};
 
-    // set ground
+    // set cylindrical Box
     {
         // geometry
-        const width = 100;
-        const height = 100;
-        const geometry = new THREE.PlaneBufferGeometry(width, height);
+        const size = 50;
+        const geometry = new THREE.CylinderBufferGeometry(size, size, size);
 
         // material - texture
         const material = new THREE.MeshPhongMaterial({
-            // map: texture,
-            // color: 'green'
-            // side: THREE.DoubleSide
+            side: THREE.DoubleSide
         });
         material.color.setRGB(.2, .35, .2);
 
         // mesh
         const mesh = new THREE.Mesh(geometry, material);
         mesh.receiveShadow = true;
-        mesh.position.y = 25;
+        mesh.rotation.x = Math.PI / 2;
+        mesh.position.z = size / 2;
 
         // linking
         scene.add(mesh);
@@ -271,17 +281,10 @@ function main() {
     }
     // gun
     {
-        // const geometry = new THREE.BoxGeometry();
-        // const material = new THREE.MeshPhongMaterial({
-        //     color: 'green'
-        // });
-        // const mesh = new THREE.Mesh(geometry, material);
         const mesh = new THREE.Object3D();
-        mesh.rotation.x = Math.PI * 1.5;
-        mesh.position.set(0, 1, 0);
         meshes.gunJoint.add(mesh);
+        mesh.up = new THREE.Vector3(0, 0, 1);
         meshes.gun = mesh;
-
 
     }
 
@@ -294,15 +297,35 @@ function main() {
     scene.add(aimingTarget);
     scene.add(targetingLight);
 
-    const bullets = [];
+    // targeting line
+    {
+        // geometry
+        const v1 = new THREE.Vector3(0, 0, 10);
+        const v2 = new THREE.Vector3(0, 10, 0);
+        const geometry = new THREE.Geometry();
+        geometry.vertices.push(v1, v2);
 
-    function fire(caster, size = .1) {
-        new Audio(audioBlob.gunShot).play();
+        // material
+        const material = new THREE.LineBasicMaterial({
+            color: 'red'
+        })
+        const line = new THREE.Line(geometry, material);
 
-        if (!caster) {
-            caster = meshes.gun;
+        scene.add(line);
+
+        const targetingLine = {
+            line,
+            v1,
+            v2
         }
-        const geometry = new THREE.SphereGeometry(size);
+        meshes.targetingLine = targetingLine;
+    }
+
+    const bullets = [];
+    const bulletSize = .1;
+    // bullet model
+    {
+        const geometry = new THREE.SphereGeometry(bulletSize);
         const material = new THREE.MeshStandardMaterial({
             color: 'gray',
             metalness: 1,
@@ -310,6 +333,17 @@ function main() {
         })
         const mesh = new THREE.Mesh(geometry, material);
         mesh.name = 'bullet';
+        meshes.bulletModel = mesh;
+    }
+
+    function fire(caster) {
+        new Audio(audioBlob.gunShot).play();
+
+        if (!caster) {
+            caster = meshes.gun;
+        }
+
+        const mesh = meshes.bulletModel.clone();
 
         const origin = new THREE.Vector3();
         caster.getWorldPosition(origin);
@@ -322,7 +356,8 @@ function main() {
         const bullet = {
             mesh,
             direction,
-            collisionRadius: size
+            collisionRadius: bulletSize,
+            state: 'fly'
         }
         bullets.push(bullet)
 
@@ -337,7 +372,7 @@ function main() {
     function recyclingBullets() {
         const del = [];
         bullets.forEach((el, i) => {
-            if (el.mesh.position.z < 0) {
+            if (el.state === 'remove') {
                 scene.remove(el.mesh)
                 del.push(i)
             }
@@ -354,6 +389,7 @@ function main() {
     // const animals = ['Cow'];
     const animals = ['Cow', 'Zebra', 'Horse'];
     const weapon = {};
+    // const trees = ['BirchTree_1'];
     const trees = ['BirchTree_1', 'BirchTree_Dead_1', 'BirchTree_Autumn_1'];
     const fbxs = {};
     const animalModels = {};
@@ -413,11 +449,17 @@ function main() {
             })
             const wrapper = new THREE.Object3D();
             wrapper.scale.set(.03, .03, .03);
-            wrapper.lookAt(100, 0, 0)
-            wrapper.rotation.x = Math.PI;
-            wrapper.position.set(0, 1.5, -9);
+            wrapper.rotation.y = Math.PI / 2;
+            wrapper.rotation.x = -Math.PI;
+            // wrapper.rotation.z = Math.PI;
+            wrapper.position.set(0, 1.6, -8.5);
 
-            meshes.gun.add(wrapper);
+            const wrapper2 = new THREE.Object3D();
+            wrapper2.up = new THREE.Vector3(0, 0, 1);
+            wrapper2.rotation.z = Math.PI;
+
+            meshes.gun.add(wrapper2);
+            wrapper2.add(wrapper);
             wrapper.add(fbx);
             weapon.fbx = fbx;
         })
@@ -459,7 +501,6 @@ function main() {
 
             wrapper.position.set(0, 0, 0);
             wrapper.rotation.y = Math.PI;
-            // wrapper.rotation.z = Math.PI / 4;
             wrapper.rotation.x = Math.PI / 2;
 
             scene.add(wrapper);
@@ -502,8 +543,6 @@ function main() {
             const y = r * Math.sin(theta);
             return [x, y]
         }
-
-
     }
 
     const enemies = [];
@@ -571,12 +610,11 @@ function main() {
                 const pos3 = new THREE.Vector3();
                 pos3.x = pos1.x - pos2.x;
                 pos3.y = pos1.y - pos2.y;
-                pos3.z = pos1.z - pos2.z;
+                pos3.z = 0;
                 const dist = pos3.length();
                 if (dist <= r1 + r2 && enemy.state === 'marching') {
                     new Audio(audioBlob.animalGasp).play();
-                    scene.remove(bullet.mesh)
-                    delBullets.push(i2);
+                    bullet.state = 'remove';
                     enemy.state = 'dead'
                     enemy.mixer.clipAction(enemy.clips[1]).repetitions = 1;
                     enemy.mixer.clipAction(enemy.clips[1]).setDuration(1.5);
@@ -618,8 +656,8 @@ function main() {
                     gameState.hp--
                     new Audio(audioBlob.damagedSound).play()
                 }
-                scene.remove(enemy.mesh)
-                delEnemies.push(i1)
+                scene.remove(enemy.mesh);
+                delEnemies.push(i1);
 
                 meshes.pov.position.z += .2;
                 light.color.setRGB(.6, 0, 0);
@@ -636,42 +674,36 @@ function main() {
         }
     }
 
-    // ray
-    function castRay(caster) {
-        if (!caster) {
-            caster = meshes.gun;
-        }
-        const origin = new THREE.Vector3();
-        caster.getWorldPosition(origin);
-        const direction = new THREE.Vector3();
-        caster.getWorldDirection(direction);
-
-        const ray = new THREE.Ray(origin, direction);
-
-        const vecBuffer = new THREE.Vector3();
-
-        // targeting ground
-        const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
-        ray.intersectPlane(plane, vecBuffer);
-
-        targetingLight.position.set(origin.x, origin.y, origin.z)
-        aimingTarget.position.set(vecBuffer.x, vecBuffer.y, vecBuffer.z)
-        lightTarget.position.set(vecBuffer.x, vecBuffer.y, vecBuffer.z)
-
-        return vecBuffer
-    }
-
-    canvas.addEventListener('mousemove', e => {
-        mouse.layerX = e.layerX;
-        mouse.layerY = e.layerY;
-        mouse.x = (e.layerX * 2 / canvas.clientWidth) - 1;
-        mouse.y = 1 - (e.layerY * 2 / canvas.clientHeight);
-    }, false)
-    const step = .1;
     canvas.addEventListener('click', e => {
         fire();
     }, false)
 
+    const raycaster = new THREE.Raycaster()
+
+    function castRay() {
+        const targetingLine = meshes.targetingLine;
+        targetingLine.line.geometry.verticesNeedUpdate = true;
+
+        const origin = new THREE.Vector3();
+        meshes.gun.getWorldPosition(origin);
+        targetingLight.position.set(origin.x, origin.y, origin.z)
+
+        targetingLine.v1.set(origin.x, origin.y, origin.z);
+
+        const mouseCoord = new THREE.Vector2(mouse.x, mouse.y);
+        raycaster.setFromCamera(mouseCoord, camera);
+        const objArray = raycaster.intersectObject(meshes.ground, false);
+        if (objArray.length > 0) {
+            const intersectPt = objArray[0].point;
+            // console.log(objArray)
+            aimingTarget.position.set(intersectPt.x, intersectPt.y, intersectPt.z)
+            lightTarget.position.set(intersectPt.x, intersectPt.y, intersectPt.z)
+
+            targetingLine.v2.set(intersectPt.x, intersectPt.y, intersectPt.z)
+
+            meshes.gun.lookAt(intersectPt.x, intersectPt.y, intersectPt.z)
+        }
+    }
 
     const clock = new THREE.Clock(false);
 
@@ -687,23 +719,13 @@ function main() {
         new Audio(audioBlob.gameEnd).play();
         clock.stop();
         gameState.state = 'end';
-        // if (scene) {
-        //     scene.traverse(el => {
-        //         if (el instanceof THREE.Mesh) {
-        //             if (el.name === 'bullet') {
-        //                 scene.remove(el);
-        //                 // Bug:  some bullets not be recycled
-        //                 // fix it at game end
-        //             }
-        //         }
-        //     })
-        // }
     }
 
     let stamp = 0;
     const levelUpInterval = 27;
 
     function render(t = 0) {
+        meshes.gun.lookAt(0, 10, 0);
 
         t *= 0.001;
         const deltaT = t - stamp;
@@ -732,12 +754,16 @@ function main() {
 
         // move bullets
         bullets.forEach((el) => {
-
-            el.mesh.position.x += el.direction.x / 4;
-            el.mesh.position.y += el.direction.y / 4;
-            el.mesh.position.z += el.direction.z / 4;
-
+            if (el.state === 'fly') {
+                el.mesh.position.x += el.direction.x / 4;
+                el.mesh.position.y += el.direction.y / 4;
+                el.mesh.position.z += el.direction.z / 4;
+            }
+            if (el.mesh.position.z <= 0 || el.mesh.position.distanceTo(new THREE.Vector3(0, 0, 0) >= 25)) {
+                el.state = 'remove'
+            }
         })
+        recyclingBullets();
 
         // move enemies
         const delEnemies = [];
@@ -760,7 +786,6 @@ function main() {
         }
         bullets_enemies_collide()
         enemies_body_collide()
-        recyclingBullets()
 
         // adjusting the camera according to canvas client size
         const needResize = resizeRendererToDisplaySize(renderer);

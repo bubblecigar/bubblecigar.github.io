@@ -40,11 +40,17 @@ const vue = new Vue({
             return 'When the rescue team arrive, they see no survivor, but a victim be cruelly killed by some unknow creatures...'
 
         },
-        showPanel() {
-            if (gameState.state === 'wait') {
-                return false
+        showScore() {
+            if (gameState.state === 'end') {
+                return true
             }
-            return true
+            return false
+        },
+        showPanel() {
+            if (gameState.state === 'playing') {
+                return true
+            }
+            return false
         },
         loadingFile() {
             let s = gameState.loadingProgress.loadingUrl;

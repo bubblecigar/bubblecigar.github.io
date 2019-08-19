@@ -32,7 +32,7 @@
             </p>
             <p class="bar-wrapper" :class='{"button-start":readyToStart}'>
                 <span class="loading-bar" :style='{width:barWidth}'></span>
-                <span class="hinting" v-if='!readyToStart'>
+                <span class="hinting" v-if='!readyToStart' class="opacity-0">
                     Loading...{{gameState.loadingProgress.itemsLoaded}}/{{gameState.loadingProgress.itemsTotal}}
                 </span>
                 <span class="hinting start-hinting" v-if='readyToStart'>
@@ -41,8 +41,7 @@
             </p>
         </div>
 
-        <div id="gameState-panel" v-if='showPanel'>
-
+        <div id="gameState-panel" v-if='showPanel' class="opacity-0" :class='{"opacity-1":showPanel}'>
             <p class="time">
                 {{Math.floor(91 - gameState.elaspedTime)}}s
             </p>
@@ -61,7 +60,7 @@
             <p class="level">stage {{gameState.level}}</p>
         </div>
 
-        <div id="score-panel" v-show='gameState.state==="end"'>
+        <div id="score-panel" v-show='showScore' class="opacity-0" :class='{"opacity-1":showScore}'>
             <h1 class="game-title">{{ scoreBoardTitle }}</h1>
             <p class="description">
                 {{ endingStory }}
