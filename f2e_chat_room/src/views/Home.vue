@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <iframe src="https://www.google.com.tw/" frameborder="0"></iframe>
+    <!-- <iframe src="https://www.google.com.tw/" frameborder="0"></iframe> -->
     <p>
       <ChatBox :id="rollID()"></ChatBox>
       <ChatBox :id="rollID()"></ChatBox>
