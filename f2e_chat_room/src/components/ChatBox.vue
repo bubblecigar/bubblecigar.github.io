@@ -107,7 +107,7 @@ export default {
 
     // load audio effect
     axios
-      .get("/assets/audio/ping-bing_E_major.wav", {
+      .get("assets/audio/ping-bing_E_major.wav", {
         responseType: "blob"
       })
       .then(res => {
