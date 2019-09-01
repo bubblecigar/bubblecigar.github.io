@@ -1,5 +1,5 @@
 <template>
-  <div class="chat-box" :id="id">
+  <div class="chat-box" :id="id" :style="colorScheme">
     <div class="socket-panel" @click="fold">
       <div class="stateWrapper">
         <button @click="reOpenSocket">
@@ -18,7 +18,7 @@
       <span class="user-label">{{ user }}</span>
       <button class="fas fa-user-cog setting" @click="toggleSettingPanel"></button>
     </div>
-    <div class="main-panel" v-show="!isFold">
+    <div class="main-panel" v-show="!isFold" :style="{height:panelHeight}">
       <div class="settingPanel" v-show="showSettingPanel">
         <div class="field username">
           <label>
@@ -26,7 +26,12 @@
             <span>username</span>
           </label>
           <div class="input">
-            <input type="text" v-model="user" onclick="this.focus();this.select()" />
+            <input
+              class="username-input"
+              type="text"
+              v-model="user"
+              onclick="this.focus();this.select()"
+            />
           </div>
         </div>
         <div class="field alert">
@@ -46,14 +51,57 @@
           </label>
           <div class="input">
             <span
-              v-for="id in roomList"
+              v-for="id in channelList"
               :class="{selected:id===targetRoomID}"
               @click="changeRoomID(id)"
             >{{id}}</span>
           </div>
         </div>
+        <div class="field">
+          <label>
+            <i class="fas fa-palette"></i>
+            <span>scheme (main)</span>
+          </label>
+          <div class="input">
+            <span
+              class="scheme main"
+              v-for="color in mainColors"
+              :class="{markUp:color === colorScheme['--c-primary']}"
+              :style="{'background-color':color}"
+              @click="setColorScheme('--c-primary',color)"
+            ></span>
+          </div>
+        </div>
+        <div class="field">
+          <label>
+            <i class="fas fa-palette"></i>
+            <span>scheme (minor)</span>
+          </label>
+          <div class="input">
+            <span
+              class="scheme minor"
+              v-for="color in minorColors"
+              :class="{markUp:color === colorScheme['--c-secondary']}"
+              :style="{'background-color':color}"
+              @click="setColorScheme('--c-secondary',color)"
+            ></span>
+          </div>
+        </div>
+        <div class="field tools">
+          <label>
+            <i class="fas fa-tools"></i>
+            <span>tools</span>
+          </label>
+          <div class="input">
+            <span @click="clearDialogue">clear messages</span>
+            <span @click="clearSavedSettings">clear storage</span>
+          </div>
+        </div>
+        <button class="back" @click="toggleSettingPanel">
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
       </div>
-      <div class="msg-panel">
+      <div class="msg-panel" @click="userIsReading">
         <MessageBlock
           v-for="data in storedData"
           :dataObj="data"
@@ -61,16 +109,23 @@
           @msgAdded="scrollToBottom"
         ></MessageBlock>
       </div>
+      <div class="emojiPicker">
+        <EmojiPicker @emojiPicked="appendEmoji" v-show="showEmojiPicker"></EmojiPicker>
+      </div>
     </div>
-    <div class="input-panel" v-show="!isFold">
+    <div class="input-panel" v-show="!isFold" @click="showSettingPanel = false">
       <div class="inputs">
         <button @click="pickFile">
           <i class="fas fa-paperclip"></i>
+        </button>
+        <button class="emoji" @click="toggleEmojiPicker">
+          <i class="far fa-laugh"></i>
         </button>
         <input
           type="text"
           v-model="inputContent.textString"
           @keydown="keyDownAction"
+          @focus="userIsTyping"
           class="text-input"
           placeholder="type a message..."
         />
@@ -89,36 +144,94 @@
 <script>
 import { setTimeout } from "timers";
 import { create } from "domain";
-import MessageBlock from "@/components/MessageBlock.vue";
 import { type } from "os";
-import axios from "axios";
+import MessageBlock from "@/components/MessageBlock.vue";
+import EmojiPicker from "@/components/EmojiPicker.vue";
 export default {
   components: {
-    MessageBlock
+    MessageBlock,
+    EmojiPicker
   },
   props: {
     id: {
       type: String,
-      required: true
+      required: false,
+      default: "chatBox1"
+    },
+    panelHeight: {
+      type: String,
+      required: false,
+      default: "300px"
+    },
+    channelList: {
+      type: Array,
+      required: false,
+      default() {
+        return [
+          "Global",
+          "Food",
+          "Music",
+          "Movie",
+          "Book",
+          "Relationship",
+          "Job",
+          "Vacation"
+        ];
+      }
+    },
+    mainColors: {
+      type: Array,
+      required: false,
+      default() {
+        return [
+          "darksalmon",
+          "lightpink",
+          "mistyrose",
+          "beige",
+          "khaki",
+          "gold",
+          "darkseagreen",
+          "lightblue",
+          "lightsteelblue",
+          "thistle"
+        ];
+      }
+    },
+    minorColors: {
+      type: Array,
+      required: false,
+      default() {
+        return [
+          "linen",
+          "floralwhite",
+          "ivory",
+          "ghostwhite",
+          "honeydew",
+          "lemonchiffon"
+        ];
+      }
     }
+  },
+  beforeDestroy() {
+    this.closeSocket();
   },
   created() {
     this.openSocket(this.roomID);
 
     // load audio effect
-    axios
-      .get("assets/audio/ping-bing_E_major.wav", {
-        responseType: "blob"
-      })
+    fetch("assets/audio/ping-bing_E_major.wav")
       .then(res => {
-        const blob = res.data;
-        const url = URL.createObjectURL(blob);
-        this.alertSoundURL = url;
-        new Audio(url);
+        const blob = res.blob();
+        return blob;
       })
-      .catch(err => {
-        console.log(err);
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        new Audio(url);
+        this.alertSoundURL = url;
       });
+
+    // load local setting
+    this.loadSettings();
   },
   mounted() {
     this.msgPanelDOM = document.querySelector(`#${this.id} .msg-panel`);
@@ -132,16 +245,7 @@ export default {
     return {
       roomID: "Global",
       targetRoomID: "Global",
-      roomList: [
-        "Global",
-        "Food",
-        "Music",
-        "Movie",
-        "Book",
-        "Relationship",
-        "Job",
-        "Vacation"
-      ],
+
       alert: true,
       alertSoundURL: undefined,
       unreadMsg: 0,
@@ -151,13 +255,18 @@ export default {
       socket: undefined,
       socketState: undefined,
       showSettingPanel: false,
+      showEmojiPicker: false,
       inputContent: {
         textString: "",
         files: []
       },
       user: "guest",
       storedData: [],
-      isFold: true
+      isFold: false,
+      colorScheme: {
+        "--c-primary": this.mainColors[0],
+        "--c-secondary": this.minorColors[0]
+      }
     };
   },
   computed: {
@@ -176,12 +285,94 @@ export default {
       }
     }
   },
-  watch: {},
+  watch: {
+    roomID: {
+      handler() {
+        this.saveSettings();
+      }
+    },
+    targetRoomID: {
+      handler() {
+        this.saveSettings();
+      }
+    },
+    user: {
+      handler() {
+        this.saveSettings();
+      }
+    },
+    isFold: {
+      handler() {
+        this.saveSettings();
+      }
+    },
+    alert: {
+      handler() {
+        this.saveSettings();
+      }
+    },
+    colorScheme: {
+      deep: true,
+      handler() {
+        this.saveSettings();
+      }
+    }
+  },
   methods: {
+    userIsReading() {
+      this.showSettingPanel = false;
+      this.showEmojiPicker = false;
+    },
+    userIsTyping() {
+      this.showSettingPanel = false;
+      this.showEmojiPicker = false;
+    },
+    toggleEmojiPicker() {
+      this.showEmojiPicker = !this.showEmojiPicker;
+    },
+    appendEmoji(emoji) {
+      this.inputContent.textString += emoji;
+    },
+    setColorScheme(key, value) {
+      this.colorScheme[key] = value;
+    },
+    clearSavedSettings() {
+      store.remove(`chatBox-${this.id}`);
+    },
+    clearDialogue() {
+      this.storedData.splice(0);
+    },
+    saveSettings() {
+      const settings = {
+        roomID: this.roomID,
+        targetRoomID: this.targetRoomID,
+        user: this.user,
+        isFold: this.isFold,
+        alert: this.alert,
+        colorScheme: this.colorScheme
+      };
+      store.set(`chatBox-${this.id}`, settings);
+    },
+    loadSettings() {
+      const settings = store.get(`chatBox-${this.id}`);
+      if (settings) {
+        try {
+          (this.roomID = settings.roomID),
+            (this.targetRoomID = settings.targetRoomID),
+            (this.user = settings.user),
+            (this.isFold = settings.isFold),
+            (this.alert = settings.alert),
+            (this.colorScheme = settings.colorScheme);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
     fold(e) {
       if (this.isFold) {
         this.isFold = false; // unfold
         this.unreadMsg = 0;
+        this.showSettingPanel = false;
       } else {
         if (e.target.classList.contains("socket-panel")) {
           this.isFold = true;
@@ -228,7 +419,7 @@ export default {
         this.updateSocketState();
       };
       this.socket.onmessage = e => {
-        if (this.alert) {
+        if (this.alert && this.isFold) {
           new Audio(this.alertSoundURL).play().catch(err => {
             console.log(err.toString());
           });
@@ -352,13 +543,9 @@ export default {
 
 <style lang="scss">
 * {
-  // outline: 0.5px solid black;
   box-sizing: border-box;
 }
 
-body {
-  background: lightgray;
-}
 button:disabled:hover {
   cursor: initial;
 }
@@ -367,8 +554,6 @@ button:disabled:hover {
   margin: 0 auto;
   display: flex;
   flex-flow: column nowrap;
-  outline: 1px solid black;
-  resize: vertical;
 
   --g-s: 5px;
   --g-m: 10px;
@@ -377,269 +562,330 @@ button:disabled:hover {
   --fs-m: 16px;
   --fs-l: 20px;
 
-  --ff: "Avenir", Helvetica, Arial, sans-serif;
+  --ff: "Source Sans Pro", "Avenir", Helvetica, Arial, sans-serif;
 
-  --c-hover: gray;
-  --c-placeholder: lightgray;
+  --c-primary: rgb(212, 244, 255);
+  --c-secondary: white;
+
+  --c-hover: var(--c-secondary);
+  --c-active: lightgray;
+  --c-placeholder: gray;
   --c-alert: tomato;
-  --c-selected: lightgray;
+  --c-selected: var(--c-secondary);
   --c-text: black;
+  --c-text-hover: rgb(59, 55, 57);
   --c-input: black;
 
   --c-safe: black;
   --c-wait: gray;
 
-  --c-primary: rgb(212, 244, 255);
-  --c-secondary: white;
-
-  --sh-inset: 0 0 8px gray inset;
+  --line: 1px solid transparent;
+  --line-s: 1px solid black;
 
   font-family: var(--ff);
+  font-size: var(--fs-m);
+  line-height: initial;
+  * {
+    font-size: inherit;
+    line-height: inherit;
+  }
+
   color: var(--c-text);
   overflow: hidden;
-}
+  outline: var(--line-s);
 
-button {
-  border: none;
-  outline: none;
-  padding: var(--g-m);
-  font-size: var(--fs-l);
-  color: var(--c-text);
-  background-color: transparent;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-.socket-panel {
-  &:hover {
-    cursor: pointer;
-  }
-  > * {
-    cursor: initial;
-  }
-  background-color: var(--c-secondary);
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: flex-start;
-}
-.unread-msg {
-  margin-left: var(--g-s);
-}
-.setting {
-  position: relative;
-}
-.user-label {
-  margin-left: auto;
-}
-
-.stateWrapper {
-  display: flex;
-  flex-flow: row;
-  align-items: center;
-}
-.stateString {
-  font-weight: bold;
-}
-.connecting,
-.closing {
-  color: var(--c-wait);
-}
-.open {
-  color: var(--c-safe);
-}
-.closed {
-  color: var(--c-alert);
-}
-.shake {
-  animation: shake 0.5s infinite linear;
-}
-@keyframes shake {
-  0% {
-    transform: rotate(0deg);
-  }
-  25% {
-    transform: rotate(20deg);
-  }
-  50% {
-    transform: rotate(0deg);
-  }
-  75% {
-    transform: rotate(-20deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
-
-.main-panel {
-  position: relative;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-  height: 250px;
-}
-
-.settingPanel {
-  background: var(--c-secondary);
-  border-bottom: 1px solid black;
-  padding: var(--g-m);
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 10;
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  background: var(--c-secondary);
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  max-height: 100%;
-  width: 100%;
-  overflow-y: scroll;
-  background: white;
-
-  .field {
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: flex-start;
-    margin: var(--g-s);
-  }
-  label {
-    display: flex;
-    align-items: center;
-    padding: var(--g-s);
-    padding-left: 0;
-    font-size: var(--fs-m);
-    font-weight: bold;
-    i {
-      width: 2em;
-      text-align: center;
-    }
-  }
-  .input {
-    padding: var(--g-s);
-    display: flex;
-    flex-flow: row wrap;
-    span {
-      padding: var(--g-s) var(--g-m);
-      margin: var(--g-s);
-      border-radius: calc(2 * var(--g-m));
-      border: 1px solid black;
-      font-size: var(--fs-s);
-      &:hover {
-        cursor: pointer;
-      }
-      &.selected {
-        background-color: var(--c-selected);
-      }
-    }
-    input {
-      border-radius: calc(2 * var(--g-m));
-      border: 1px solid black;
-      background: transparent;
-      font-family: var(--ff);
-      padding: var(--g-s) var(--g-m);
-      font-size: var(--fs-s);
-      text-align: center;
-      color: var(--c-input);
-      outline: 0;
-
-      &:focus {
-        // outline: 1px solid black;
-      }
-    }
-  }
-}
-.msg-panel {
-  overflow-y: scroll;
-  padding: var(--g-s) 0;
-  scroll-behavior: smooth;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: flex-start;
-  background: var(--c-primary);
-  height: 100%;
-  width: 100%;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-.input-panel {
-  background-color: var(--c-secondary);
-  position: relative;
-  .inputs {
-    display: flex;
-    flex-flow: row wrap;
-    .text-input {
-      font-size: var(--fs-m);
-      flex-grow: 1;
-      padding: var(--g-s);
-      color: var(--c-input);
-      outline: none;
-      border: none;
-      background-color: transparent;
-      font-family: var(--ff);
-      &::placeholder {
-        color: var(--c-placeholder);
-      }
-    }
-  }
-}
-
-.upload-file-preview {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
-  position: absolute;
-  bottom: 100%;
-  padding: var(--g-s);
-  left: 0;
-
-  span {
-    display: inline-block;
-    padding: var(--g-s) var(--g-m);
-    margin: var(--g-s);
-    border-radius: calc(2 * var(--g-m));
-    border: 1px solid black;
-    background-color: white;
-    font-size: var(--fs-s);
-    position: relative;
+  button {
+    border: none;
+    outline: none;
+    padding: var(--g-m);
+    font-size: var(--fs-l);
+    color: var(--c-text);
+    background-color: transparent;
+    transition: transform 0.1s;
 
     &:hover {
       cursor: pointer;
-      color: transparent;
+      transform: translateY(-3px);
+    }
+    &:active {
+      transform: translateY(0px);
+    }
+  }
+  .socket-panel {
+    &:hover {
+      cursor: pointer;
+    }
+    > * {
+      cursor: initial;
+    }
+    background-color: var(--c-secondary);
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .unread-msg {
+    margin-left: var(--g-s);
+  }
+  .setting {
+    position: relative;
+  }
 
-      &::after {
-        content: "remove";
-        text-decoration: underline;
-        position: absolute;
-        color: var(--c-alert);
-        left: 50%;
-        top: 50%;
-        transform: translate3d(-50%, -50%, 0);
+  .user-label {
+    margin-left: auto;
+  }
+
+  .stateWrapper {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+  }
+  .stateString {
+    font-weight: bold;
+  }
+  .connecting,
+  .closing {
+    color: var(--c-wait);
+  }
+  .open {
+    color: var(--c-safe);
+  }
+  .closed {
+    color: var(--c-alert);
+  }
+  .shake {
+    animation: shake 0.5s infinite linear;
+  }
+  @keyframes shake {
+    0% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(20deg);
+    }
+    50% {
+      transform: rotate(0deg);
+    }
+    75% {
+      transform: rotate(-20deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  .main-panel {
+    position: relative;
+    border-top: var(--line);
+    border-bottom: var(--line);
+    height: 300px;
+  }
+
+  .settingPanel {
+    outline: var(--line);
+    padding: var(--g-m);
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    background: var(--c-secondary);
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    max-height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    background: var(--c-primary);
+    // background-color: rgba(255, 255, 255, 0.8);
+
+    .field {
+      display: flex;
+      flex-flow: column nowrap;
+      align-items: flex-start;
+      margin: var(--g-s);
+    }
+    label {
+      display: flex;
+      align-items: center;
+      padding: var(--g-s);
+      padding-left: 0;
+      font-size: var(--fs-m);
+      font-weight: bold;
+      i {
+        width: 2em;
+        text-align: center;
+      }
+    }
+    .input {
+      padding: var(--g-s);
+      display: flex;
+      flex-flow: row wrap;
+      span {
+        padding: var(--g-s) var(--g-m);
+        position: relative;
+        margin: var(--g-s);
+        border-radius: calc(2 * var(--g-m));
+        border: var(--line);
+        font-size: var(--fs-s);
+        &:hover {
+          cursor: pointer;
+          background-color: var(--c-hover);
+        }
+        &:active {
+          background-color: var(--c-active);
+        }
+        &.selected {
+          background-color: var(--c-selected);
+          border: var(--line-s);
+        }
+
+        &.scheme {
+          padding: 0.75em 1.3em;
+          &.markUp {
+            border: var(--line-s);
+          }
+          &.markUp::after {
+            content: ":)";
+            font-weight: bold;
+            position: absolute;
+            left: 35%;
+            top: 20%;
+            transform: rotate(90deg);
+          }
+        }
+      }
+      .username-input {
+        padding: calc(var(--g-s) * 3.5 / 5);
+        margin: var(--g-s);
+        border: var(--line-s);
+        &:focus {
+          background-color: var(--c-secondary);
+        }
+      }
+      input {
+        border-radius: calc(2 * var(--g-m));
+        border: var(--line);
+        background: transparent;
+        font-family: var(--ff);
+        padding: var(--g-s) var(--g-m);
+        font-size: var(--fs-s);
+        text-align: center;
+        color: var(--c-input);
+        outline: 0;
       }
     }
   }
-}
 
-.file-input {
-  display: none;
-}
-
-.loading {
-  animation: spin infinite 2.5s linear;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0);
+  .back {
+    margin-left: auto;
+    align-self: flex-end;
+    font-size: var(--fs-l);
   }
 
-  100% {
-    transform: rotate(360deg);
+  .msg-panel {
+    outline: var(--line-s);
+    overflow-y: scroll;
+    padding: var(--g-s) 0;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    background: var(--c-primary);
+    height: 100%;
+    width: 100%;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  .input-panel {
+    background-color: var(--c-secondary);
+    position: relative;
+    .inputs {
+      display: flex;
+      flex-flow: row wrap;
+      .text-input {
+        font-size: var(--fs-m);
+        flex-grow: 1;
+        padding: var(--g-s);
+        color: var(--c-input);
+        outline: none;
+        border: none;
+        background-color: transparent;
+        font-family: var(--ff);
+        &::placeholder {
+          color: var(--c-placeholder);
+        }
+      }
+    }
+  }
+
+  .upload-file-preview {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: absolute;
+    bottom: 100%;
+    padding: var(--g-s);
+    left: 0;
+
+    span {
+      display: inline-block;
+      padding: var(--g-s) var(--g-m);
+      margin: var(--g-s);
+      border-radius: calc(2 * var(--g-m));
+      border: var(--line);
+      background-color: var(--c-secondary);
+      font-size: var(--fs-s);
+      position: relative;
+
+      &:hover {
+        cursor: pointer;
+        color: transparent;
+        &::after {
+          content: "remove";
+          text-decoration: underline;
+          position: absolute;
+          color: var(--c-alert);
+          left: 50%;
+          top: 50%;
+          transform: translate3d(-50%, -50%, 0);
+        }
+      }
+    }
+  }
+
+  .emojiPicker {
+    position: absolute;
+    bottom: 0%;
+    left: 0;
+    width: 100%;
+    max-height: 100%;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .file-input {
+    display: none;
+  }
+
+  .loading {
+    animation: spin infinite 2.5s linear;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
   }
 }
 </style>

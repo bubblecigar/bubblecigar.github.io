@@ -49,6 +49,7 @@ export default {
       if (url.startsWith("data:video/")) {
         return `<video src='${url}' controls></video>`;
       }
+      return `<a target='_BLANK' style='color:black' href='${url}'><i class="far fa-file"></i> download</a>`;
     }
   },
   computed: {
@@ -99,6 +100,8 @@ export default {
 
   &.notification {
     align-self: center;
+    font-size: var(--fs-s);
+    opacity: 0.5;
   }
 
   .user {
