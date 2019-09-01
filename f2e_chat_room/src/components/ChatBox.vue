@@ -262,7 +262,7 @@ export default {
       },
       user: "guest",
       storedData: [],
-      isFold: false,
+      isFold: true,
       colorScheme: {
         "--c-primary": this.mainColors[0],
         "--c-secondary": this.minorColors[0]
