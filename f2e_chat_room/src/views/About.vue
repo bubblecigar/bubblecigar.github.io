@@ -14,6 +14,7 @@
         <a
           target="_BLANK"
           href="https://www.websocket.in/"
+          class="external-link"
         >
           <i class="fas fa-link"></i> WebSocket.in
         </a>, which is an open and free WebSocket server for bi-direction data transmission usage.
@@ -49,6 +50,33 @@
       </p>
       <p>
         <a href="./downloadSrc/EmojiPicker.vue" download>EmojiPicker.vue</a>
+      </p>
+    </section>
+    <section>
+      <h1>
+        <i class="fas fa-bezier-curve"></i>
+        Dependencies
+      </h1>
+      <p class="dependency">
+        <a target="_BLANK" href="https://fontawesome.com/" class="external-link">
+          <i class="fas fa-link"></i>
+          FontAwesome
+        </a>
+      </p>
+      <p class="code-block dependency">
+        <span>
+          &lt;script src="https://kit.fontawesome.com/
+          <b>{ your kit }</b> .js">&lt;script>
+        </span>
+      </p>
+      <p class="dependency">
+        <a target="_BLANK" href="https://github.com/marcuswestin/store.js/" class="external-link">
+          <i class="fas fa-link"></i>
+          store.js
+        </a>
+      </p>
+      <p class="code-block dependency">
+        <span>&lt;script src="https://cdn.jsdelivr.net/npm/store-js@2.0.4/dist/store.legacy.min.js">&lt;script></span>
       </p>
     </section>
   </article>

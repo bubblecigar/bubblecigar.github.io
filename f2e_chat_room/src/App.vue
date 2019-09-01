@@ -33,7 +33,7 @@ main {
 
   width: 100%;
   min-height: 100vh;
-  padding: 100px 30px 80px 30px;
+  padding: 100px 30px 120px 30px;
   line-height: 1.5em;
   text-align: left;
   article {
@@ -118,6 +118,43 @@ main {
     color: tomato;
     font-weight: bold;
   }
+  .code-block {
+    display: flex;
+    flex-flow: column;
+    text-indent: 1em;
+    background-color: rgba(0, 0, 0, 0.05);
+    margin: 8px 5px;
+
+    .indent {
+      padding-left: 1em;
+    }
+    span {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 18px;
+      margin: 0;
+      padding: 0;
+    }
+    sub {
+      color: gray;
+    }
+  }
+  .dependency {
+    &p {
+      margin-top: 20px;
+    }
+    b {
+      color: #42b983;
+      font-weight: bold;
+    }
+    span {
+      white-space: nowrap;
+      overflow-x: scroll;
+      padding: 5px;
+    }
+  }
+  .external-link {
+    font-weight: bold;
+  }
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -132,13 +169,11 @@ main {
   width: 100%;
   padding: 30px 0;
   position: absolute;
-  // top: 0;
-  // left: 0;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  background-color: rgba(39, 115, 167, 0.3);
+  background-color: #2773a74d;
   a {
     font-weight: bold;
     text-decoration: none;

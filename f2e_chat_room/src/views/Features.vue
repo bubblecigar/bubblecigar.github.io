@@ -45,7 +45,7 @@
         </h2>
         <p>
           A subset of
-          <a target="_BLANK" href="https://getemoji.com/">
+          <a target="_BLANK" href="https://getemoji.com/" class="external-link">
             <i class="fas fa-link"></i>emoji.com
           </a>:
         </p>

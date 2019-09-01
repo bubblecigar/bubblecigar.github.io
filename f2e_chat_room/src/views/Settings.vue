@@ -14,7 +14,7 @@
       <h2>
         <i class="fas fa-bell"></i> alert
       </h2>
-      <p>If set to be on and the ChatBox is folded, there will be an alert sound on messaged.</p>
+      <p>If set to be on and the ChatBox is folded, there will be an alert sound when receiving message.</p>
     </section>
     <section>
       <h2>

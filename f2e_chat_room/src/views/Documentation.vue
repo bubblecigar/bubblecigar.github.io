@@ -124,9 +124,13 @@
           <span class="line indent">left: 10px;</span>
           <span class="line">}</span>
         </p>
-        <p>In some cases, use a parent wrapper to do the job:</p>
+        <p>Or you may want to do something like this:</p>
+        <div id="anchor">
+          <ChatBox id="chatbox3" panelHeight="250px" />
+        </div>
         <p class="code-block">
           <span class="line">#chatbox3-wrapper {</span>
+          <span class="line indent">margin-left: auto;</span>
           <span class="line indent">position: relative;</span>
           <span class="line indent">width: 300px;</span>
           <span class="line indent">height: 0px;</span>
@@ -136,36 +140,6 @@
           <span class="line indent">width: 100%;</span>
           <span class="line indent">transform: translateY(-100%);</span>
           <span class="line">}</span>
-        </p>
-        <div id="anchor">
-          <ChatBox id="chatbox3" panelHeight="250px" />
-        </div>
-      </section>
-      <section>
-        <h1>
-          <i class="fas fa-bezier-curve"></i>
-          Dependencies
-        </h1>
-        <p class="dependency">
-          <a target="_BLANK" href="https://fontawesome.com/">
-            <i class="fas fa-link"></i>
-            FontAwesome
-          </a>
-        </p>
-        <p class="code-block dependency">
-          <span>
-            &lt;script src="https://kit.fontawesome.com/
-            <b>{ your kit }</b> .js">&lt;script>
-          </span>
-        </p>
-        <p class="dependency">
-          <a target="_BLANK" href="https://github.com/marcuswestin/store.js/">
-            <i class="fas fa-link"></i>
-            store.js
-          </a>
-        </p>
-        <p class="code-block dependency">
-          <span>&lt;script src="https://cdn.jsdelivr.net/npm/store-js@2.0.4/dist/store.legacy.min.js">&lt;script></span>
         </p>
       </section>
     </article>
@@ -195,7 +169,8 @@ b {
   width: 350px;
   height: 0;
   padding: 15px;
-  margin: 50px 0;
+  margin: 40px 0 50px 0;
+  margin-left: auto;
   border: 5px dashed black;
   #chatbox3 {
     width: 100%;
@@ -207,40 +182,6 @@ b {
     position: absolute;
     left: 0%;
     top: 130%;
-  }
-}
-
-.code-block {
-  display: flex;
-  flex-flow: column;
-  text-indent: 1em;
-  background-color: rgba(0, 0, 0, 0.05);
-  margin: 8px 5px;
-
-  .indent {
-    padding-left: 1em;
-  }
-  span {
-    font-family: "Courier New", Courier, monospace;
-    font-size: 18px;
-    margin: 0;
-    padding: 0;
-  }
-  sub {
-    color: gray;
-  }
-}
-.dependency {
-  text-indent: 0em;
-
-  &p {
-    margin-top: 20px;
-  }
-
-  span {
-    white-space: nowrap;
-    overflow-x: scroll;
-    padding: 5px;
   }
 }
 </style>
