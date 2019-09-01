@@ -10,8 +10,11 @@
         About
       </h2>
       <p>
-        This is a vue component built on top of
-        <a target="_BLANK" href="https://www.websocket.in/">
+        ChatBox is a vue component built on top of
+        <a
+          target="_BLANK"
+          href="https://www.websocket.in/"
+        >
           <i class="fas fa-link"></i> WebSocket.in
         </a>, which is an open and free WebSocket server for bi-direction data transmission usage.
       </p>
