@@ -36,5 +36,20 @@
         <router-link to="/documentation">#Documentation</router-link>.
       </p>
     </section>
+    <section>
+      <h2>
+        <i class="fas fa-file-download"></i>
+        Download SFC
+      </h2>
+      <p>
+        <a href="/downloadSrc/ChatBox.vue" download>ChatBox.vue</a>
+      </p>
+      <p>
+        <a href="/downloadSrc/MessageBlock.vue" download>MessageBlock.vue</a>
+      </p>
+      <p>
+        <a href="/downloadSrc/EmojiPicker.vue" download>EmojiPicker.vue</a>
+      </p>
+    </section>
   </article>
 </template>

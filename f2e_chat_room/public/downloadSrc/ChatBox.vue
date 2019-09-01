@@ -147,7 +147,6 @@ import { create } from "domain";
 import { type } from "os";
 import MessageBlock from "@/components/MessageBlock.vue";
 import EmojiPicker from "@/components/EmojiPicker.vue";
-
 export default {
   components: {
     MessageBlock,
