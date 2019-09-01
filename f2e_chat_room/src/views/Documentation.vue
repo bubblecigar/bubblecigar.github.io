@@ -94,7 +94,6 @@
         <p>
           <sup class="alert-text" style="margin:0;padding:0">Id must be unique</sup>, or the ChatBox may not work properly.
         </p>
-        <p>Id is used to store local setting. You'll have to reset the setting after changing it's value.</p>
         <p>
           Channels and colors accept array of Strings. Their usage is explained
           <router-link to="/settings">#here</router-link>.

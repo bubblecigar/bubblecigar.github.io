@@ -25,7 +25,7 @@
         Usage
       </h2>
       <p>You may use ChatBox to simulate client-client side real-time communication, and bypassing all server side stuff.</p>
-      <p>There are two ChatBoxs fixed at the bottom of the page. Try to type and send something, and you can see them communicating with each other. There should be a delay between sending and receiving, which tells they are in fact communicating via the server of WebSocket.in.</p>
+      <p>There are two ChatBoxs fixed at the bottom of the page. Try to type and send something, then you'll see them communicating with each other.</p>
       <p>
         Other functionalities are written in
         <router-link to="/features">#Features</router-link>&nbsp;and&nbsp;
