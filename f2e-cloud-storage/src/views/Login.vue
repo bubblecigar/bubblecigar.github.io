@@ -1,9 +1,9 @@
 <template>
   <div>
     <form>
-      <label>email</label>
+      <label>Email</label>
       <input v-model="email" type="email" />
-      <label>password</label>
+      <label>Password</label>
       <input v-model="password" type="password" />
       <div class="btns">
         <button @click="createAccount">Sign up</button>
@@ -66,15 +66,31 @@ form {
     border: none;
     font-size: var(--fs-m);
   }
+  label {
+    text-align: left;
+  }
   input {
     margin-bottom: var(--g-l);
+    box-shadow: 0 0 3px inset;
   }
   .btns {
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
     padding: var(--g-m);
+    margin-top: 30px;
+    button {
+      background-color: var(--c-main);
+      color: white;
+      box-shadow: 0 0 3px black inset;
+      &:hover {
+        cursor: pointer;
+      }
+      &:active {
+        box-shadow: 0 0 3px black inset;
+      }
+    }
   }
 
   .loginMsg {

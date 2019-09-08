@@ -57,6 +57,11 @@ const store = new Vuex.Store({
         msg,
         type
       };
+      setTimeout(() => {
+        if (state.loginMsg.msg === msg) {
+          state.loginMsg = null;
+        }
+      }, 2000);
     },
     SET_NODE_INFO(state, info) {
       state.selectedNode = info;

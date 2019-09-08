@@ -41,8 +41,8 @@ html {
   --c-selected: rgb(160, 185, 233);
   --c-label: rgb(180, 180, 180);
 
-  --c-error: red;
-  --c-safe: green;
+  --c-error: rgb(226, 120, 120);
+  --c-safe: rgb(120, 167, 120);
 }
 button {
   outline: 0;
@@ -60,12 +60,19 @@ button {
   display: flex;
   flex: row wrap;
   align-items: center;
+  max-width: 1100px;
+  width: calc(100% - var(--g-l) * 2);
+  margin: 0 auto 30px auto;
+  background: var(--c-main);
+  border-top: 0;
+  border-radius: 0 0 var(--g-l) var(--g-l);
+  box-shadow: 0 -3px 3px gray inset;
   a,
   .userStatus {
     margin: var(--g-m);
     padding: var(--g-m);
     text-decoration: none;
-    color: initial;
+    color: white;
   }
   a {
     padding: var(--g-m);
@@ -78,6 +85,9 @@ button {
   }
   .userStatus {
     margin-left: auto;
+  }
+  .router-link-exact-active {
+    text-decoration: underline;
   }
 }
 .currentUser {
